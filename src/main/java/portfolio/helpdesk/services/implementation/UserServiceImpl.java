@@ -14,7 +14,7 @@ public class UserServiceImpl extends CrudImpl<User, Integer> implements IUserSer
     private final IUserRepo userRepo;
 
     @Override
-    protected IGenericRepo<User, Integer> getRepo() {
+    protected IUserRepo getRepo() {
         return userRepo;
     }
 }

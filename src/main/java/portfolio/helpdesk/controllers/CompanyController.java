@@ -23,6 +23,7 @@ public class CompanyController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody CompanyDTO companyDTO){
+        companyService.findCompanyByName(companyDTO.getName());
         Company company = companyService.save(companyMapper.convertToEntity(companyDTO));
         URI location = URI.create(String.format("/company/%d", company.getIdCompany()));
         return ResponseEntity.created(location).build();

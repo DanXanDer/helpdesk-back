@@ -14,7 +14,7 @@ public class SecretQuestionServiceImpl extends CrudImpl<SecretQuestion, Integer>
     private final ISecretQuestionRepo secretQuestionRepo;
 
     @Override
-    protected IGenericRepo<SecretQuestion, Integer> getRepo() {
+    protected ISecretQuestionRepo getRepo() {
         return secretQuestionRepo;
     }
 }
