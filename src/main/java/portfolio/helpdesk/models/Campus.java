@@ -25,6 +25,9 @@ public class Campus {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @OneToMany(mappedBy = "campus", cascade = {CascadeType.ALL})
     private List<Area> areas;
 }

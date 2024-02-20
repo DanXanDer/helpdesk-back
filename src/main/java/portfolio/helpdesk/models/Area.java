@@ -20,6 +20,9 @@ public class Area {
     @JoinColumn(name = "id_campus", foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"))
     private Campus campus;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @Column(nullable = false, length = 100)
     private String name;
 }

@@ -21,6 +21,9 @@ public class Company {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     @OneToMany(mappedBy = "company", cascade = {CascadeType.ALL})
     private List<Campus> campus;
 }
