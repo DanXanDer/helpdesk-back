@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import portfolio.helpdesk.services.IUserService;
 
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
-public class UserController {
+@RequestMapping("/clients")
+public class ClientController {
     private final IUserService userService;
 
 }

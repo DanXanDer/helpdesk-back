@@ -16,7 +16,7 @@ public class SecretQuestion {
     private Integer idSecretQuestion;
 
     @Column(nullable = false, length = 100)
-    private String questionName;
+    private String name;
 
     @OneToMany(mappedBy = "secretQuestion", cascade = {CascadeType.ALL})
     private List<User> users;

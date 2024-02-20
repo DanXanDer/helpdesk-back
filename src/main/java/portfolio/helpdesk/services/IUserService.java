@@ -1,4 +1,6 @@
 package portfolio.helpdesk.services;
 
-public interface IUserService {
+import portfolio.helpdesk.models.User;
+
+public interface IUserService extends ICRUD<User, Integer> {
 }

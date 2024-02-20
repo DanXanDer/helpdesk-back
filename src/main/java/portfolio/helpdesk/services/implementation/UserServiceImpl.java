@@ -7,8 +7,8 @@ import portfolio.helpdesk.repositories.IGenericRepo;
 import portfolio.helpdesk.repositories.IUserRepo;
 import portfolio.helpdesk.services.IUserService;
 
-@Service("userService")
 @RequiredArgsConstructor
+@Service
 public class UserServiceImpl extends CrudImpl<User, Integer> implements IUserService {
 
     private final IUserRepo userRepo;
