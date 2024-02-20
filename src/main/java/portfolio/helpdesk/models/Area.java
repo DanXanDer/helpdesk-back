@@ -21,7 +21,7 @@ public class Area {
     private Campus campus;
 
     @Column(nullable = false)
-    private boolean enabled = true;
+    private boolean enabled;
 
     @Column(nullable = false, length = 100)
     private String name;

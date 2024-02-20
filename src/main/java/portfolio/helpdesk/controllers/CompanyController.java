@@ -33,4 +33,11 @@ public class CompanyController {
         List<CompanyDTO> list = companyService.findAll().stream().map(companyMapper::convertToDTO).toList();
         return ResponseEntity.ok(list);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CompanyDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CompanyDTO companyDTO){
+        companyDTO.setIdCompany(id);
+        Company company = companyService.update(id, companyMapper.convertToEntity(companyDTO));
+        return ResponseEntity.ok().body(companyMapper.convertToDTO(company));
+    }
 }

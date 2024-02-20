@@ -22,7 +22,7 @@ public class Company {
     private String name;
 
     @Column(nullable = false)
-    private boolean enabled = true;
+    private boolean enabled;
 
     @OneToMany(mappedBy = "company", cascade = {CascadeType.ALL})
     private List<Campus> campus;
