@@ -9,6 +9,6 @@ public class SecretQuestionDTO {
     private Integer idSecretQuestion;
 
     @NotNull
-    @Size(min = 10, max = 50, message = "The question must be between 10 and 50 characters")
+    @Size(min = 10, max = 50, message = "La pregunta de seguridad debe tener entre 10 y 100 caracteres")
     private String name;
 }
