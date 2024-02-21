@@ -26,4 +26,9 @@ public class CompanyServiceImpl extends CrudImpl<Company, Integer> implements IC
             throw new ModelAlreadyExistsException("Company with name " + name + " already exists");
         });
     }
+
+    public Company update(Integer id, Company company) {
+       getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
+       return getRepo().save(company);
+    }
 }

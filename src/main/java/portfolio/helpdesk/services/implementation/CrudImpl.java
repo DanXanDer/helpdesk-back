@@ -17,11 +17,6 @@ public abstract class CrudImpl<T, ID> implements ICRUD<T, ID> {
         return getRepo().save(t);
     }
 
-    @Override
-    public T update(ID id, T t) {
-        getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
-        return getRepo().save(t);
-    }
 
     @Override
     public List<T> findAll() {
@@ -33,9 +28,5 @@ public abstract class CrudImpl<T, ID> implements ICRUD<T, ID> {
         return getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
     }
 
-    @Override
-    public void delete(ID id) {
-        getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
-        getRepo().deleteById(id);
-    }
+
 }

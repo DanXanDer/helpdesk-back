@@ -22,7 +22,7 @@ public class CompanyController {
     private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody CompanyDTO companyDTO){
+    public ResponseEntity<Void> save(@Valid @RequestBody CompanyDTO companyDTO) {
         companyService.findCompanyByName(companyDTO.getName());
         Company company = companyService.save(companyMapper.convertToEntity(companyDTO));
         URI location = URI.create(String.format("/company/%d", company.getIdCompany()));
@@ -30,13 +30,14 @@ public class CompanyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyDTO>> findAll(){
+    public ResponseEntity<List<CompanyDTO>> findAll() {
         List<CompanyDTO> list = companyService.findAll().stream().map(companyMapper::convertToDTO).toList();
         return ResponseEntity.ok(list);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CompanyDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CompanyDTO companyDTO){
+    public ResponseEntity<CompanyDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CompanyDTO companyDTO) {
+        companyService.findCompanyByName(companyDTO.getName());
         companyDTO.setIdCompany(id);
         Company company = companyService.update(id, companyMapper.convertToEntity(companyDTO));
         return ResponseEntity.ok().body(companyMapper.convertToDTO(company));
