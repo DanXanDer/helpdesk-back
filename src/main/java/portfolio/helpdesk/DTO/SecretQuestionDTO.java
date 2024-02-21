@@ -8,7 +8,7 @@ import lombok.Data;
 public class SecretQuestionDTO {
     private Integer idSecretQuestion;
 
-    @NotNull
+    @NotNull(message = "Nombre de la pregunta de seguridad no puede ser nulo")
     @Size(min = 10, max = 50, message = "La pregunta de seguridad debe tener entre 10 y 100 caracteres")
     private String name;
 }
