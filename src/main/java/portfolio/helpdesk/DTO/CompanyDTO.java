@@ -12,5 +12,5 @@ public class CompanyDTO {
     @Size(min = 3, max = 100, message = "Nombre de la empresa debe tener entre 2 y 100 caracteres")
     private String name;
 
-    private boolean enabled = true;
+    private boolean enabled;
 }

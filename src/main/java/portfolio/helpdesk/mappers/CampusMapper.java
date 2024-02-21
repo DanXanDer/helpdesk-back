@@ -11,6 +11,7 @@ public interface CampusMapper {
     CampusMapper INSTANCE = Mappers.getMapper(CampusMapper.class);
 
     @Mapping(source = "idCompany", target = "company.idCompany")
+    @Mapping(source = "enabled", target = "enabled")
     Campus convertToEntity(CampusDTO campusDTO);
 
     @Mapping(source = "company.idCompany", target = "idCompany")
