@@ -4,5 +4,5 @@ import portfolio.helpdesk.models.Company;
 
 public interface ICompanyService extends ICRUD<Company, Integer> {
     void findCompanyByName(String name);
-    Company update(Integer id, Company company);
+    void updateCompanyNameByIdCompany(Integer idCompany, String name);
 }

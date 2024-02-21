@@ -2,11 +2,10 @@ package portfolio.helpdesk.services.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
-import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Company;
 import portfolio.helpdesk.repositories.ICompanyRepo;
-import portfolio.helpdesk.repositories.IGenericRepo;
 import portfolio.helpdesk.services.ICompanyService;
 
 @RequiredArgsConstructor
@@ -27,8 +26,13 @@ public class CompanyServiceImpl extends CrudImpl<Company, Integer> implements IC
         });
     }
 
-    public Company update(Integer id, Company company) {
-       getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
-       return getRepo().save(company);
+    @Override
+    @Transactional
+    public void updateCompanyNameByIdCompany(Integer idCompany, String name) {
+        getRepo().findCompanyByName(name).ifPresent(company -> {
+            throw new ModelAlreadyExistsException("Company with name " + name + " already exists");
+        });
+        getRepo().updateCompanyNameByIdCompany(idCompany, name);
     }
+
 }

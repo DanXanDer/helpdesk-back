@@ -36,11 +36,11 @@ public class CompanyController {
         return ResponseEntity.ok(list);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CompanyDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CompanyDTO companyDTO) {
-        companyService.findCompanyByName(companyDTO.getName());
-        companyDTO.setIdCompany(id);
-        Company company = companyService.update(id, companyMapper.convertToEntity(companyDTO));
-        return ResponseEntity.ok().body(companyMapper.convertToDTO(company));
+    @PatchMapping("/{idCompany}/name")
+    public ResponseEntity<Void> updateName(
+            @PathVariable("idCompany") Integer idCompany,
+            @Valid @RequestBody CompanyDTO companyDTO) {
+        companyService.updateCompanyNameByIdCompany(idCompany, companyDTO.getName());
+        return ResponseEntity.ok().build();
     }
 }
