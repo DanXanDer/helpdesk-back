@@ -3,6 +3,7 @@ package portfolio.helpdesk.services.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
+import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Campus;
 import portfolio.helpdesk.repositories.ICampusRepo;
 import portfolio.helpdesk.repositories.IGenericRepo;
@@ -24,6 +25,12 @@ public class CampusServiceImpl extends CrudImpl<Campus, Integer> implements ICam
         getRepo().findCampusByNameAndCompany_IdCompany(name, idCompany).ifPresent(campus -> {
             throw new ModelAlreadyExistsException("Campus with name " + name + " already exists in company with id " + idCompany);
         });
+    }
+
+    @Override
+    public Campus updateCampus(Campus campus) {
+        getRepo().findById(campus.getIdCampus()).orElseThrow(() -> new ModelNotFoundException("Campus with id " + campus.getIdCampus() + " not found"));
+        return getRepo().save(campus);
     }
 
 }

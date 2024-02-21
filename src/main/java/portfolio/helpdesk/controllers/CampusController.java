@@ -34,4 +34,12 @@ public class CampusController {
         return ResponseEntity.ok(campus);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CampusDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CampusDTO campusDTO){
+        campusService.findCampusByNameAndCompany(campusDTO.getName(), campusDTO.getIdCompany());
+        campusDTO.setIdCampus(id);
+        Campus campus = campusService.updateCampus(campusMapper.convertToEntity(campusDTO));
+        return ResponseEntity.ok().body(campusMapper.convertToDTO(campus));
+    }
+
 }
