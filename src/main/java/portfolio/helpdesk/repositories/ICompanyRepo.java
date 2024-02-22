@@ -15,4 +15,8 @@ public interface ICompanyRepo extends IGenericRepo<Company, Integer> {
     @Modifying
     @Query("UPDATE Company c SET c.name = ?2 where c.idCompany = ?1")
     void updateCompanyNameByIdCompany(Integer idCompany, String name);
+
+    @Modifying
+    @Query("UPDATE Company c SET c.enabled = ?2 where c.idCompany = ?1")
+    void updateCompanyStatusByIdCompany(Integer idCompany, boolean status);
 }

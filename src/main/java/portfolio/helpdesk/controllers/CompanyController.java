@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.CompanyDTO;
 import portfolio.helpdesk.mappers.CompanyMapper;
 import portfolio.helpdesk.models.Company;
+import portfolio.helpdesk.services.ICampusService;
 import portfolio.helpdesk.services.ICompanyService;
 
 import java.net.URI;
@@ -19,6 +21,7 @@ import java.util.List;
 public class CompanyController {
 
     private final ICompanyService companyService;
+    private final ICampusService campusService;
     private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
 
     @PostMapping
@@ -43,4 +46,16 @@ public class CompanyController {
         companyService.updateCompanyNameByIdCompany(idCompany, companyDTO.getName());
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/{idCompany}/status")
+    @Transactional
+    public ResponseEntity<Void> updateStatus(
+            @PathVariable("idCompany") Integer idCompany) {
+        boolean status = companyService.findById(idCompany).isEnabled();
+        companyService.updateCompanyStatusByIdCompany(idCompany, !status);
+        campusService.updateCampusStatusByCompanyStatus(idCompany, !status);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
