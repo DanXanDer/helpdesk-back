@@ -15,5 +15,6 @@ public interface CampusMapper {
     Campus convertToEntity(CampusDTO campusDTO);
 
     @Mapping(source = "company.idCompany", target = "idCompany")
+    @Mapping(source = "enabled", target = "enabled")
     CampusDTO convertToDTO(Campus campus);
 }
