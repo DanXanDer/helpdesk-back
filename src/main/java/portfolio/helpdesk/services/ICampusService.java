@@ -7,6 +7,5 @@ import java.util.List;
 public interface ICampusService extends ICRUD<Campus, Integer> {
     void findCampusByNameAndCompany(String name, Integer idCompany);
     void updateCampusStatusByCompanyStatus(Integer idCompany ,boolean status);
-
-    Campus updateCampus(Campus campus);
+    void updateCampusStatusByIdCampus(Integer idCampus, boolean status);
 }

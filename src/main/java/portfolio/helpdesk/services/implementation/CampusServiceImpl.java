@@ -6,10 +6,7 @@ import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
 import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Campus;
 import portfolio.helpdesk.repositories.ICampusRepo;
-import portfolio.helpdesk.repositories.IGenericRepo;
 import portfolio.helpdesk.services.ICampusService;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,13 +29,13 @@ public class CampusServiceImpl extends CrudImpl<Campus, Integer> implements ICam
     @Override
     public void updateCampusStatusByCompanyStatus(Integer idCompany, boolean status) {
         getRepo().findAllIdCampusByIdCompany(idCompany).forEach(
-                idCampus -> getRepo().updateCampusStatusByCompanyStatus(idCampus, status));
+                idCampus -> getRepo().updateCampusStatus(idCampus, status));
     }
 
     @Override
-    public Campus updateCampus(Campus campus) {
-        getRepo().findById(campus.getIdCampus()).orElseThrow(() -> new ModelNotFoundException("Campus with id " + campus.getIdCampus() + " not found"));
-        return getRepo().save(campus);
+    public void updateCampusStatusByIdCampus(Integer idCampus, boolean status) {
+        getRepo().findById(idCampus).orElseThrow(() -> new ModelNotFoundException(idCampus));
+        getRepo().updateCampusStatus(idCampus, status);
     }
 
 }
