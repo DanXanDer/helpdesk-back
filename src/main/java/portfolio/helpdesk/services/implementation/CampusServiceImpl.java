@@ -8,6 +8,8 @@ import portfolio.helpdesk.models.Campus;
 import portfolio.helpdesk.repositories.ICampusRepo;
 import portfolio.helpdesk.services.ICampusService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CampusServiceImpl extends CrudImpl<Campus, Integer> implements ICampusService {
@@ -35,6 +37,11 @@ public class CampusServiceImpl extends CrudImpl<Campus, Integer> implements ICam
     public void updateCampusStatusByIdCampus(Integer idCampus, boolean status) {
         getRepo().findById(idCampus).orElseThrow(() -> new ModelNotFoundException(idCampus));
         getRepo().updateCampusStatus(idCampus, status);
+    }
+
+    @Override
+    public List<Campus> findAllCampusByIdCompany(Integer idCompany) {
+        return getRepo().findAllCampusByIdCompany(idCompany);
     }
 
 }

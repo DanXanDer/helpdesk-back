@@ -37,7 +37,8 @@ public class CampusController {
 
     @GetMapping("/{idCompany}")
     public ResponseEntity<List<CampusDTO>> findAllByIdCompany(@PathVariable("idCompany") Integer idCompany){
-        List<CampusDTO> campusList =
+        List<CampusDTO> campusList = campusService.findAllCampusByIdCompany(idCompany).stream().map(campusMapper::convertToDTO).toList();
+        return ResponseEntity.ok(campusList);
     }
 
     @PatchMapping("/{idCampus}/status")
