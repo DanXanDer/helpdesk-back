@@ -7,6 +7,8 @@ import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.repositories.IAreaRepo;
 import portfolio.helpdesk.services.IAreaService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaService {
@@ -23,5 +25,10 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
         getRepo().findAreaByNameAndIdCampus(name, idCampus).ifPresent(campus -> {
             throw new ModelAlreadyExistsException("Area with name " + name + " already exists in campus with id " + idCampus);
         });
+    }
+
+    @Override
+    public List<Area> findAllAreasByIdCampus(Integer idCampus) {
+        return getRepo().findAllAreasByIdCampus(idCampus);
     }
 }

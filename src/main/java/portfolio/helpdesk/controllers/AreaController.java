@@ -3,16 +3,14 @@ package portfolio.helpdesk.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.AreaDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.services.IAreaService;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,5 +26,13 @@ public class AreaController {
         Area area = areaService.save(areaMapper.convertToEntity(areaDTO));
         URI location = URI.create(String.format("/area/%d", area.getIdArea()));
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/campus/{idCampus}")
+    public ResponseEntity<List<AreaDTO>> findAllById(@PathVariable("idCampus") Integer idCampus){
+        List<AreaDTO> areas = areaService.findAllAreasByIdCampus(idCampus)
+                .stream()
+                .map(areaMapper::convertToDTO).toList();
+        return ResponseEntity.ok(areas);
     }
 }

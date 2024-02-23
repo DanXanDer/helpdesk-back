@@ -29,13 +29,8 @@ public class CampusController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<CampusDTO>> findAll(){
-        List<CampusDTO> campusList = campusService.findAll().stream().map(campusMapper::convertToDTO).toList();
-        return ResponseEntity.ok(campusList);
-    }
 
-    @GetMapping("/{idCompany}")
+    @GetMapping("/company/{idCompany}")
     public ResponseEntity<List<CampusDTO>> findAllByIdCompany(@PathVariable("idCompany") Integer idCompany){
         List<CampusDTO> campusList = campusService.findAllCampusByIdCompany(idCompany).stream().map(campusMapper::convertToDTO).toList();
         return ResponseEntity.ok(campusList);
