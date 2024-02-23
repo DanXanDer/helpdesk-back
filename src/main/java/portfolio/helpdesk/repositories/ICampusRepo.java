@@ -12,7 +12,7 @@ public interface ICampusRepo extends IGenericRepo<Campus, Integer> {
 
     @Modifying
     @Query("UPDATE Campus c SET c.enabled = ?2 WHERE c.idCampus = ?1")
-    void updateCampusStatus(Integer idCampus, boolean status);
+    void updateCampusStatusByIdCampus(Integer idCampus, boolean status);
 
     @Query("SELECT c FROM Campus c WHERE c.company.idCompany = ?1")
     List<Campus> findAllCampusByIdCompany(Integer idCompany);

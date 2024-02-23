@@ -3,6 +3,7 @@ package portfolio.helpdesk.services.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
+import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.repositories.IAreaRepo;
 import portfolio.helpdesk.services.IAreaService;
@@ -25,6 +26,12 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
         getRepo().findAreaByNameAndIdCampus(name, idCampus).ifPresent(campus -> {
             throw new ModelAlreadyExistsException("Area with name " + name + " already exists in campus with id " + idCampus);
         });
+    }
+
+    @Override
+    public void updateAreaStatusByIdArea(Integer idArea, boolean status) {
+        getRepo().findById(idArea).orElseThrow(() -> new ModelNotFoundException(idArea));
+        getRepo().updateAreaStatusByIdArea(idArea, status);
     }
 
     @Override

@@ -30,13 +30,13 @@ public class CampusServiceImpl extends CrudImpl<Campus, Integer> implements ICam
 
     @Override
     public void updateCampusStatusByCompanyStatus(Integer idCompany, boolean status) {
-        getRepo().findAllCampusByIdCompany(idCompany).forEach(campus -> getRepo().updateCampusStatus(campus.getIdCampus(), status));
+        getRepo().findAllCampusByIdCompany(idCompany).forEach(campus -> getRepo().updateCampusStatusByIdCampus(campus.getIdCampus(), status));
     }
 
     @Override
     public void updateCampusStatusByIdCampus(Integer idCampus, boolean status) {
         getRepo().findById(idCampus).orElseThrow(() -> new ModelNotFoundException(idCampus));
-        getRepo().updateCampusStatus(idCampus, status);
+        getRepo().updateCampusStatusByIdCampus(idCampus, status);
     }
 
     @Override

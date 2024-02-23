@@ -3,6 +3,7 @@ package portfolio.helpdesk.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.AreaDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
@@ -20,7 +21,7 @@ public class AreaController {
     private final AreaMapper areaMapper = AreaMapper.INSTANCE;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody AreaDTO areaDTO){
+    public ResponseEntity<Void> save(@Valid @RequestBody AreaDTO areaDTO) {
         areaService.findAreaByNameAndIdCampus(areaDTO.getName(), areaDTO.getIdCampus());
         areaDTO.setEnabled(true);
         Area area = areaService.save(areaMapper.convertToEntity(areaDTO));
@@ -29,10 +30,20 @@ public class AreaController {
     }
 
     @GetMapping("/campus/{idCampus}")
-    public ResponseEntity<List<AreaDTO>> findAllById(@PathVariable("idCampus") Integer idCampus){
+    public ResponseEntity<List<AreaDTO>> findAllById(@PathVariable("idCampus") Integer idCampus) {
         List<AreaDTO> areas = areaService.findAllAreasByIdCampus(idCampus)
                 .stream()
                 .map(areaMapper::convertToDTO).toList();
         return ResponseEntity.ok(areas);
+    }
+
+    @Transactional
+    @PatchMapping("/{idArea}/status")
+    public ResponseEntity<Void> updateStatus(
+            @PathVariable("idArea") Integer idArea
+    ) {
+        boolean newStatus = !areaService.findById(idArea).isEnabled();
+        areaService.updateAreaStatusByIdArea(idArea, newStatus);
+        return ResponseEntity.ok().build();
     }
 }

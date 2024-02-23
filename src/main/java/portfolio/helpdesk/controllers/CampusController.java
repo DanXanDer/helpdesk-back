@@ -38,10 +38,10 @@ public class CampusController {
 
     @PatchMapping("/{idCampus}/status")
     @Transactional
-    public ResponseEntity<CampusDTO> updateStatus(
+    public ResponseEntity<Void> updateStatus(
             @PathVariable("idCampus") Integer idCampus){
-        boolean status = campusService.findById(idCampus).isEnabled();
-        campusService.updateCampusStatusByIdCampus(idCampus, !status);
+        boolean newStatus = !campusService.findById(idCampus).isEnabled();
+        campusService.updateCampusStatusByIdCampus(idCampus, newStatus);
         return ResponseEntity.ok().build();
     }
 
