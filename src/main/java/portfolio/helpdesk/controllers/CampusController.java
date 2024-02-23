@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.CampusDTO;
 import portfolio.helpdesk.mappers.CampusMapper;
 import portfolio.helpdesk.models.Campus;
+import portfolio.helpdesk.services.IAreaService;
 import portfolio.helpdesk.services.ICampusService;
 
 import java.net.URI;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("/campus")
 public class CampusController {
     private final ICampusService campusService;
+    private final IAreaService areaService;
     private final CampusMapper campusMapper = CampusMapper.INSTANCE;
 
     @PostMapping
@@ -31,7 +33,7 @@ public class CampusController {
 
 
     @GetMapping("/company/{idCompany}")
-    public ResponseEntity<List<CampusDTO>> findAllByIdCompany(@PathVariable("idCompany") Integer idCompany){
+    public ResponseEntity<List<CampusDTO>> findAllByIdCompany(@PathVariable("idCompany") Integer idCompany) {
         List<CampusDTO> campusList = campusService.findAllCampusByIdCompany(idCompany).stream().map(campusMapper::convertToDTO).toList();
         return ResponseEntity.ok(campusList);
     }
@@ -39,9 +41,10 @@ public class CampusController {
     @PatchMapping("/{idCampus}/status")
     @Transactional
     public ResponseEntity<Void> updateStatus(
-            @PathVariable("idCampus") Integer idCampus){
+            @PathVariable("idCampus") Integer idCampus) {
         boolean newStatus = !campusService.findById(idCampus).isEnabled();
         campusService.updateCampusStatusByIdCampus(idCampus, newStatus);
+        areaService.updateAreaStatusByCampusStatus(idCampus, newStatus);
         return ResponseEntity.ok().build();
     }
 

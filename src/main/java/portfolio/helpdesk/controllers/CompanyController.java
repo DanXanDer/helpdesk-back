@@ -47,8 +47,8 @@ public class CompanyController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{idCompany}/status")
     @Transactional
+    @PatchMapping("/{idCompany}/status")
     public ResponseEntity<Void> updateStatus(
             @PathVariable("idCompany") Integer idCompany) {
         boolean status = companyService.findById(idCompany).isEnabled();

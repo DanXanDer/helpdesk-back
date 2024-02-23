@@ -35,6 +35,11 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     }
 
     @Override
+    public void updateAreaStatusByCampusStatus(Integer idCampus, boolean status) {
+        getRepo().findAllAreasByIdCampus(idCampus).forEach(area -> getRepo().updateAreaStatusByIdArea(area.getIdArea(), status));
+    }
+
+    @Override
     public List<Area> findAllAreasByIdCampus(Integer idCampus) {
         return getRepo().findAllAreasByIdCampus(idCampus);
     }
