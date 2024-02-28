@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import portfolio.helpdesk.DTO.AreaDTO;
+import portfolio.helpdesk.DTO.request.AreaRequestDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.services.IAreaService;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,20 +20,11 @@ public class AreaController {
     private final AreaMapper areaMapper = AreaMapper.INSTANCE;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody AreaDTO areaDTO) {
-        areaService.findAreaByNameAndIdCampus(areaDTO.getName(), areaDTO.getIdCampus());
-        areaDTO.setEnabled(true);
-        Area area = areaService.save(areaMapper.convertToEntity(areaDTO));
+    public ResponseEntity<Void> save(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
+        areaService.findAreaByNameAndIdCampus(areaRequestDTO.name(), areaRequestDTO.idCampus());
+        Area area = areaService.save(areaMapper.convertToEntity(areaRequestDTO));
         URI location = URI.create(String.format("/area/%d", area.getIdArea()));
         return ResponseEntity.created(location).build();
-    }
-
-    @GetMapping("/campus/{idCampus}")
-    public ResponseEntity<List<AreaDTO>> findAllById(@PathVariable("idCampus") Integer idCampus) {
-        List<AreaDTO> areas = areaService.findAllAreasByIdCampus(idCampus)
-                .stream()
-                .map(areaMapper::convertToDTO).toList();
-        return ResponseEntity.ok(areas);
     }
 
     @Transactional

@@ -17,7 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "id_secret_question", foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
     private SecretQuestion secretQuestion;
 
