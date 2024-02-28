@@ -23,6 +23,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody UserRequestDTO userRequestDTO) {
+        userService.findUserByUsernameOrEmail(userRequestDTO.username(), userRequestDTO.email());
         User user = userService.save(userMapper.convertToEntity(userRequestDTO));
         URI location = URI.create(String.format("/user/%d", user.getIdUser()));
         return ResponseEntity.created(location).build();
