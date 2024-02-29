@@ -39,18 +39,19 @@ public class CompanyController {
     }
 
     @PatchMapping("/{idCompany}/name")
-    public ResponseEntity<Void> updateName(
+    public ResponseEntity<CompanyResponseDTO> updateName(
             @PathVariable("idCompany") Integer idCompany,
             @RequestBody @Valid CompanyNameUpdateDTO companyNameUpdateDTO) {
         String name = companyNameUpdateDTO.name();
         companyService.findCompanyByName(name);
         companyService.updateCompanyNameByIdCompany(idCompany, name);
-        return ResponseEntity.ok().build();
+        Company company = companyService.findById(idCompany);
+        return ResponseEntity.ok(companyMapper.convertToDTO(company));
     }
 
     @Transactional
     @PutMapping("/{idCompany}/status")
-    public ResponseEntity<Void> updateStatus(
+    public ResponseEntity<CompanyResponseDTO> updateStatus(
             @PathVariable("idCompany") Integer idCompany) {
         Company company = companyService.findById(idCompany);
         boolean newStatus = !company.isEnabled();
@@ -60,6 +61,6 @@ public class CompanyController {
             branch.getAreas().forEach(area -> area.setEnabled(newStatus));
         });
         companyService.update(company);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(companyMapper.convertToDTO(company));
     }
 }

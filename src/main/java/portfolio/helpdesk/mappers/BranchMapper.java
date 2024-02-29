@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.AreaCreationDTO;
 import portfolio.helpdesk.DTO.request.BranchCreationDTO;
+import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Branch;
@@ -34,5 +35,20 @@ public interface BranchMapper {
         return area;
     }
 
-    BranchResponseDTO convertToDTO(Branch branch);
+    default BranchResponseDTO convertToDTO(Branch branch) {
+        return new BranchResponseDTO(
+                branch.getCompany().getName(),
+                branch.getName(),
+                branch.isEnabled(),
+                branch.getAreas().stream().map(this::convertToDTO).collect(Collectors.toSet())
+        );
+    }
+
+    default AreaResponseDTO convertToDTO(Area area) {
+        return new AreaResponseDTO(
+                area.getBranch().getName(),
+                area.getName(),
+                area.isEnabled()
+        );
+    }
 }

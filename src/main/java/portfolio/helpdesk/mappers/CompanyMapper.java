@@ -48,7 +48,6 @@ public interface CompanyMapper {
 
     default CompanyResponseDTO convertToDTO(Company company) {
         return new CompanyResponseDTO(
-                company.getIdCompany(),
                 company.getName(),
                 company.isEnabled(),
                 company.getBranches().stream().map(this::convertToDTO).collect(Collectors.toSet())
@@ -57,8 +56,7 @@ public interface CompanyMapper {
 
     default BranchResponseDTO convertToDTO(Branch branch) {
         return new BranchResponseDTO(
-                branch.getIdBranch(),
-                branch.getCompany().getIdCompany(),
+                branch.getCompany().getName(),
                 branch.getName(),
                 branch.isEnabled(),
                 branch.getAreas().stream().map(this::convertToDTO).collect(Collectors.toSet())
@@ -67,8 +65,7 @@ public interface CompanyMapper {
 
     default AreaResponseDTO convertToDTO(Area area) {
         return new AreaResponseDTO(
-                area.getIdArea(),
-                area.getBranch().getIdBranch(),
+                area.getBranch().getName(),
                 area.getName(),
                 area.isEnabled()
         );
