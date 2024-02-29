@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.mappers.CompanyMapper;
+import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Company;
 import portfolio.helpdesk.services.ICampusService;
 import portfolio.helpdesk.services.ICompanyService;

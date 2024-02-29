@@ -21,6 +21,10 @@ public class User {
     @JoinColumn(name = "id_secret_question", foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
     private SecretQuestion secretQuestion;
 
+    @ManyToOne
+    @JoinColumn(name = "id_area", foreignKey = @ForeignKey(name = "FK_USER_AREA"))
+    private Area area;
+
     @Column(nullable = false, length = 100)
     private String username;
 

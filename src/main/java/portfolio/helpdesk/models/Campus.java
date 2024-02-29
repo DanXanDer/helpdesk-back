@@ -1,5 +1,7 @@
 package portfolio.helpdesk.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +30,7 @@ public class Campus {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "campus", cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    @OneToMany(mappedBy = "campus", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Area> areas;
 }

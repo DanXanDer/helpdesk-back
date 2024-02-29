@@ -1,5 +1,6 @@
 package portfolio.helpdesk.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class Area {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idArea;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_campus", foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"))
     private Campus campus;

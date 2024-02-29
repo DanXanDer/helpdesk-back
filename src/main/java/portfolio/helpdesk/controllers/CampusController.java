@@ -23,7 +23,7 @@ public class CampusController {
 
     @PostMapping
     public ResponseEntity<Void> saveCampus(@Valid @RequestBody CampusRequestDTO campusRequestDTO) {
-        campusService.findCampusByNameAndCompany(campusRequestDTO.name(), campusRequestDTO.idCompany());
+        //campusService.findCampusByNameAndCompany(campusRequestDTO.name(), campusRequestDTO.idCompany());
         Campus campus = campusService.save(campusMapper.convertToEntity(campusRequestDTO));
         URI location = URI.create(String.format("/campus/%d", campus.getIdCampus()));
         return ResponseEntity.created(location).build();

@@ -1,12 +1,16 @@
 package portfolio.helpdesk.DTO.response;
 
-public record UserResponseDTO(
+public record WorkerResponseDTO(
         Integer idUser,
         String username,
         String name,
         String lastname,
         String email,
         String type,
-        boolean enabled
+        Boolean enabled,
+        String area,
+        String campus,
+        String company
 ) {
+
 }

@@ -1,5 +1,6 @@
 package portfolio.helpdesk.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,6 @@ public class Company {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "company", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Campus> campus;
 }
