@@ -2,7 +2,7 @@ package portfolio.helpdesk.DTO.response;
 
 public record AreaResponseDTO(
         Integer idArea,
-        int idBranch,
+        Integer idBranch,
         String name,
         boolean enabled) {
 }

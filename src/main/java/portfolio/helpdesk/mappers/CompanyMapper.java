@@ -5,6 +5,8 @@ import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.AreaRequestDTO;
 import portfolio.helpdesk.DTO.request.BranchRequestDTO;
 import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
+import portfolio.helpdesk.DTO.response.AreaResponseDTO;
+import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Branch;
@@ -44,6 +46,31 @@ public interface CompanyMapper {
         return area;
     }
 
+    default CompanyResponseDTO convertToDTO(Company company) {
+        return new CompanyResponseDTO(
+                company.getIdCompany(),
+                company.getName(),
+                company.isEnabled(),
+                company.getBranches().stream().map(this::convertToDTO).collect(Collectors.toSet())
+        );
+    }
 
-    CompanyResponseDTO convertToDTO(Company company);
+    default BranchResponseDTO convertToDTO(Branch branch) {
+        return new BranchResponseDTO(
+                branch.getIdBranch(),
+                branch.getCompany().getIdCompany(),
+                branch.getName(),
+                branch.isEnabled(),
+                branch.getAreas().stream().map(this::convertToDTO).collect(Collectors.toSet())
+        );
+    }
+
+    default AreaResponseDTO convertToDTO(Area area) {
+        return new AreaResponseDTO(
+                area.getIdArea(),
+                area.getBranch().getIdBranch(),
+                area.getName(),
+                area.isEnabled()
+        );
+    }
 }
