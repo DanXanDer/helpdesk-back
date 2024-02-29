@@ -19,8 +19,8 @@ public class Area {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_campus", foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"))
-    private Campus campus;
+    @JoinColumn(name = "id_branch", foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"))
+    private Branch branch;
 
     @Column(nullable = false)
     private boolean enabled = true;

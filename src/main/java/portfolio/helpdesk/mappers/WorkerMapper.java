@@ -29,7 +29,7 @@ public interface WorkerMapper {
     @Mapping(source = "user.type", target = "type")
     @Mapping(source = "user.enabled", target = "enabled")
     @Mapping(source = "user.area.name", target = "area")
-    @Mapping(source = "user.area.campus.name", target = "campus")
-    @Mapping(source = "user.area.campus.company.name", target = "company")
+    @Mapping(source = "user.area.branch.name", target = "branch")
+    @Mapping(source = "user.area.branch.company.name", target = "company")
     WorkerResponseDTO convertToDTO(Worker worker);
 }

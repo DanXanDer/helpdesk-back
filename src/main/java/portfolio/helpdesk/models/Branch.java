@@ -1,6 +1,5 @@
 package portfolio.helpdesk.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,17 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Campus {
+public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCampus;
+    private Integer idBranch;
 
     @ManyToOne
     @JoinColumn(name = "id_company", foreignKey = @ForeignKey(name = "FK_CAMPUS_COMPANY"))
@@ -31,6 +30,6 @@ public class Campus {
     private boolean enabled = true;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "campus", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Area> areas;
+    @OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private Set<Area> areas;
 }

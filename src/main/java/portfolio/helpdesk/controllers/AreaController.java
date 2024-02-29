@@ -21,7 +21,7 @@ public class AreaController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
-        //areaService.findAreaByNameAndIdCampus(areaRequestDTO.name(), areaRequestDTO.idCampus());
+        //areaService.findAreaByNameAndIdBranch(areaRequestDTO.name(), areaRequestDTO.idBranch());
         Area area = areaService.save(areaMapper.convertToEntity(areaRequestDTO));
         URI location = URI.create(String.format("/area/%d", area.getIdArea()));
         return ResponseEntity.created(location).build();

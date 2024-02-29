@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface IAreaRepo extends IGenericRepo<Area, Integer> {
 
-    @Query("SELECT a FROM Area a WHERE a.name = ?1 AND a.campus.idCampus = ?2")
-    Optional<Area> findAreaByNameAndIdCampus(String name, Integer idCampus);
+    @Query("SELECT a FROM Area a WHERE a.name = ?1 AND a.branch.idBranch = ?2")
+    Optional<Area> findAreaByNameAndIdBranch(String name, Integer idBranch);
 
     @Modifying
     @Query("UPDATE Area a SET a.enabled = ?2 WHERE a.idArea = ?1")
     void updateAreaStatusByIdArea(Integer idArea, boolean status);
 
-    @Query("SELECT a FROM Area a WHERE a.campus.idCampus = ?1")
-    List<Area> findAllAreasByIdCampus(Integer idCampus);
+    @Query("SELECT a FROM Area a WHERE a.branch.idBranch = ?1")
+    List<Area> findAllAreasByIdBranch(Integer idBranch);
 }

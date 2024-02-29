@@ -5,8 +5,10 @@ import portfolio.helpdesk.models.Area;
 import java.util.List;
 
 public interface IAreaService extends ICRUD<Area, Integer> {
-    void findAreaByNameAndIdCampus(String name, Integer idCampus);
+    void findAreaByNameAndIdBranch(String name, Integer idBranch);
     void updateAreaStatusByIdArea(Integer idArea, boolean status);
-    void updateAreaStatusByCampusStatus(Integer idCampus, boolean status);
-    List<Area> findAllAreasByIdCampus(Integer idCampus);
+
+    void updateAreaStatusByBranchStatus(Integer idBranch, boolean status);
+
+    List<Area> findAllAreasByIdBranch(Integer idBranch);
 }

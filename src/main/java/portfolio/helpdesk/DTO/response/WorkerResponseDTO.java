@@ -9,7 +9,7 @@ public record WorkerResponseDTO(
         String type,
         Boolean enabled,
         String area,
-        String campus,
+        String branch,
         String company
 ) {
 

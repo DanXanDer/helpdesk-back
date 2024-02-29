@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.mappers.CompanyMapper;
-import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Company;
-import portfolio.helpdesk.services.ICampusService;
+import portfolio.helpdesk.services.IBranchService;
 import portfolio.helpdesk.services.ICompanyService;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ import java.util.List;
 public class CompanyController {
 
     private final ICompanyService companyService;
-    private final ICampusService campusService;
+    private final IBranchService branchService;
     private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
 
     @PostMapping
@@ -34,8 +34,8 @@ public class CompanyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyResponseDTO>> findAll() {
-        List<CompanyResponseDTO> companyList = companyService.findAll().stream().map(companyMapper::convertToDTO).toList();
+    public ResponseEntity<Set<CompanyResponseDTO>> findAll() {
+        Set<CompanyResponseDTO> companyList = companyService.findAll().stream().map(companyMapper::convertToDTO).collect(Collectors.toSet());
         return ResponseEntity.ok(companyList);
     }
 
@@ -53,7 +53,7 @@ public class CompanyController {
             @PathVariable("idCompany") Integer idCompany) {
         boolean status = companyService.findById(idCompany).isEnabled();
         companyService.updateCompanyStatusByIdCompany(idCompany, !status);
-        campusService.updateCampusStatusByCompanyStatus(idCompany, !status);
+        branchService.updateBranchStatusByCompanyStatus(idCompany, !status);
         return ResponseEntity.ok().build();
     }
 

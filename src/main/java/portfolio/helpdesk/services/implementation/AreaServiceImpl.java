@@ -22,9 +22,9 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     }
 
     @Override
-    public void findAreaByNameAndIdCampus(String name, Integer idCampus) {
-        getRepo().findAreaByNameAndIdCampus(name, idCampus).ifPresent(campus -> {
-            throw new ModelAlreadyExistsException("Area with name " + name + " already exists in campus with id " + idCampus);
+    public void findAreaByNameAndIdBranch(String name, Integer idBranch) {
+        getRepo().findAreaByNameAndIdBranch(name, idBranch).ifPresent(branch -> {
+            throw new ModelAlreadyExistsException("Area with name " + name + " already exists in branch with id " + idBranch);
         });
     }
 
@@ -35,12 +35,12 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     }
 
     @Override
-    public void updateAreaStatusByCampusStatus(Integer idCampus, boolean status) {
-        getRepo().findAllAreasByIdCampus(idCampus).forEach(area -> getRepo().updateAreaStatusByIdArea(area.getIdArea(), status));
+    public void updateAreaStatusByBranchStatus(Integer idBranch, boolean status) {
+        getRepo().findAllAreasByIdBranch(idBranch).forEach(area -> getRepo().updateAreaStatusByIdArea(area.getIdArea(), status));
     }
 
     @Override
-    public List<Area> findAllAreasByIdCampus(Integer idCampus) {
-        return getRepo().findAllAreasByIdCampus(idCampus);
+    public List<Area> findAllAreasByIdBranch(Integer idBranch) {
+        return getRepo().findAllAreasByIdBranch(idBranch);
     }
 }
