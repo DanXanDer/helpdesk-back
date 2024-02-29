@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import portfolio.helpdesk.DTO.request.AreaRequestDTO;
+import portfolio.helpdesk.DTO.request.AreaCreationDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.services.IAreaService;
@@ -20,9 +20,9 @@ public class AreaController {
     private final AreaMapper areaMapper = AreaMapper.INSTANCE;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
+    public ResponseEntity<Void> save(@Valid @RequestBody AreaCreationDTO areaCreationDTO) {
         //areaService.findAreaByNameAndIdBranch(areaRequestDTO.name(), areaRequestDTO.idBranch());
-        Area area = areaService.save(areaMapper.convertToEntity(areaRequestDTO));
+        Area area = areaService.save(areaMapper.convertToEntity(areaCreationDTO));
         URI location = URI.create(String.format("/area/%d", area.getIdArea()));
         return ResponseEntity.created(location).build();
     }

@@ -1,7 +1,5 @@
 package portfolio.helpdesk.services.implementation;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.repositories.IGenericRepo;
 import portfolio.helpdesk.services.ICRUD;
@@ -17,6 +15,10 @@ public abstract class CrudImpl<T, ID> implements ICRUD<T, ID> {
         return getRepo().save(t);
     }
 
+    @Override
+    public T update(T t) {
+        return getRepo().save(t);
+    }
 
     @Override
     public List<T> findAll() {

@@ -2,9 +2,9 @@ package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.AreaRequestDTO;
-import portfolio.helpdesk.DTO.request.BranchRequestDTO;
-import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
+import portfolio.helpdesk.DTO.request.AreaCreationDTO;
+import portfolio.helpdesk.DTO.request.BranchCreationDTO;
+import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
 import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public interface CompanyMapper {
     CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
 
-    default Company convertToEntity(CompanyRequestDTO companyRequestDTO) {
+    default Company convertToEntity(CompanyCreationDTO companyCreationDTO) {
         Company company = new Company();
-        company.setName(companyRequestDTO.name());
-        Set<Branch> branchList = companyRequestDTO.branches().stream().map(branchRequestDTO -> {
+        company.setName(companyCreationDTO.name());
+        Set<Branch> branchList = companyCreationDTO.branches().stream().map(branchRequestDTO -> {
             Branch branch = this.convertToEntity(branchRequestDTO);
             Set<Area> areasList = branchRequestDTO.areas().stream().map(this::convertToEntity).collect(Collectors.toSet());
             branch.setAreas(areasList);
@@ -34,15 +34,15 @@ public interface CompanyMapper {
         return company;
     }
 
-    default Branch convertToEntity(BranchRequestDTO branchRequestDTO) {
+    default Branch convertToEntity(BranchCreationDTO branchCreationDTO) {
         Branch branch = new Branch();
-        branch.setName(branchRequestDTO.name());
+        branch.setName(branchCreationDTO.name());
         return branch;
     }
 
-    default Area convertToEntity(AreaRequestDTO areaRequestDTO) {
+    default Area convertToEntity(AreaCreationDTO areaCreationDTO) {
         Area area = new Area();
-        area.setName(areaRequestDTO.name());
+        area.setName(areaCreationDTO.name());
         return area;
     }
 

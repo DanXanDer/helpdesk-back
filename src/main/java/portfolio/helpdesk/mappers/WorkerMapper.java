@@ -4,7 +4,7 @@ package portfolio.helpdesk.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.WorkerRequestDTO;
+import portfolio.helpdesk.DTO.request.WorkerCreationDTO;
 import portfolio.helpdesk.DTO.response.WorkerResponseDTO;
 import portfolio.helpdesk.models.Worker;
 
@@ -19,7 +19,7 @@ public interface WorkerMapper {
     @Mapping(source = "lastname", target = "user.lastname")
     @Mapping(source = "email", target = "user.email")
     @Mapping(source = "type", target = "user.type")
-    Worker convertToEntity(WorkerRequestDTO workerRequestDTO);
+    Worker convertToEntity(WorkerCreationDTO workerCreationDTO);
 
     @Mapping(source = "user.idUser", target = "idUser")
     @Mapping(source = "user.username", target = "username")

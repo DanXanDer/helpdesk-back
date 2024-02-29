@@ -2,7 +2,7 @@ package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.AreaRequestDTO;
+import portfolio.helpdesk.DTO.request.AreaCreationDTO;
 import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.models.Area;
 
@@ -10,7 +10,7 @@ import portfolio.helpdesk.models.Area;
 public interface AreaMapper {
     AreaMapper INSTANCE = Mappers.getMapper(AreaMapper.class);
 
-    Area convertToEntity(AreaRequestDTO areaRequestDTO);
+    Area convertToEntity(AreaCreationDTO areaCreationDTO);
 
     AreaResponseDTO convertToDTO(Area area);
 }
