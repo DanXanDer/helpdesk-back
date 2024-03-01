@@ -3,6 +3,7 @@ package portfolio.helpdesk.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +23,17 @@ public class WorkerController {
     private final IWorkerService workerService;
     private final IUserService userService;
     private final WorkerMapper workerMapper = WorkerMapper.INSTANCE;
+
+    @Transactional
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody WorkerCreationDTO workerCreationDTO) {
-        userService.findUserByUsernameOrEmail(workerCreationDTO.username(), workerCreationDTO.email());
+        userService.findUserByUsernameOrEmail(
+                workerCreationDTO.user().username(),
+                workerCreationDTO.user().email());
         Worker worker = workerService.save(workerMapper.convertToEntity(workerCreationDTO));
         URI location = URI.create(String.format("/workers/%d", worker.getIdWorker()));
         return ResponseEntity.created(location).build();
     }
+
+
 }

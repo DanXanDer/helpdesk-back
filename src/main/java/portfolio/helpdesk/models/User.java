@@ -1,9 +1,10 @@
 package portfolio.helpdesk.models;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,4 +52,7 @@ public class User {
 
     @Column(nullable = false)
     private boolean firstLogin = true;
+
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Worker worker;
 }

@@ -17,8 +17,7 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idWorker;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_WORKER_USER"))
     private User user;
-
 }
