@@ -37,6 +37,7 @@ public interface BranchMapper {
 
     default BranchResponseDTO convertToDTO(Branch branch) {
         return new BranchResponseDTO(
+                branch.getIdBranch(),
                 branch.getCompany().getName(),
                 branch.getName(),
                 branch.isEnabled(),
@@ -46,6 +47,7 @@ public interface BranchMapper {
 
     default AreaResponseDTO convertToDTO(Area area) {
         return new AreaResponseDTO(
+                area.getIdArea(),
                 area.getBranch().getName(),
                 area.getName(),
                 area.isEnabled()

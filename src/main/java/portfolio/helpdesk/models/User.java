@@ -51,4 +51,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
     private Worker worker;
+
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Client client;
 }

@@ -16,7 +16,20 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idClient;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_CLIENT_USER"))
     private User user;
+
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "id_area",
+            foreignKey = @ForeignKey(name = "FK_CLIENT_AREA"))
+    private Area area;
+
+    @Column(nullable = false, length = 9)
+    private String anydesk;
+
+    @Column(nullable = false, length = 9)
+    private String teamviewer;
 }
