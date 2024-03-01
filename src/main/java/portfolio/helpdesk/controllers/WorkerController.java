@@ -27,9 +27,6 @@ public class WorkerController {
     @Transactional
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody WorkerCreationDTO workerCreationDTO) {
-        userService.findUserByUsernameOrEmail(
-                workerCreationDTO.user().username(),
-                workerCreationDTO.user().email());
         Worker worker = workerService.save(workerMapper.convertToEntity(workerCreationDTO));
         URI location = URI.create(String.format("/workers/%d", worker.getIdWorker()));
         return ResponseEntity.created(location).build();

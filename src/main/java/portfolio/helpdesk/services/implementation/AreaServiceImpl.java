@@ -8,8 +8,6 @@ import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.repositories.IAreaRepo;
 import portfolio.helpdesk.services.IAreaService;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaService {
@@ -34,13 +32,4 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
         getRepo().updateAreaStatusByIdArea(idArea, status);
     }
 
-    @Override
-    public void updateAreaStatusByBranchStatus(Integer idBranch, boolean status) {
-        getRepo().findAllAreasByIdBranch(idBranch).forEach(area -> getRepo().updateAreaStatusByIdArea(area.getIdArea(), status));
-    }
-
-    @Override
-    public List<Area> findAllAreasByIdBranch(Integer idBranch) {
-        return getRepo().findAllAreasByIdBranch(idBranch);
-    }
 }

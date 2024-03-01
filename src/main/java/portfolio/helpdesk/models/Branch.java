@@ -19,7 +19,10 @@ public class Branch {
     private Integer idBranch;
 
     @ManyToOne
-    @JoinColumn(name = "id_company", foreignKey = @ForeignKey(name = "FK_CAMPUS_COMPANY"))
+    @JoinColumn(
+            nullable = false,
+            name = "id_company",
+            foreignKey = @ForeignKey(name = "FK_CAMPUS_COMPANY"))
     private Company company;
 
     @Column(nullable = false, length = 100)

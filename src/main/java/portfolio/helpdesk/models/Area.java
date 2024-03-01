@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,7 +17,11 @@ public class Area {
     private Integer idArea;
 
     @ManyToOne
-    @JoinColumn(name = "id_branch", foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"))
+    @JoinColumn(
+            nullable = false,
+            name = "id_branch",
+            foreignKey = @ForeignKey(name = "FK_AREA_CAMPUS"
+            ))
     private Branch branch;
 
     @Column(nullable = false, length = 100)
@@ -28,6 +30,4 @@ public class Area {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "area", cascade = {CascadeType.ALL})
-    private Set<User> users;
 }
