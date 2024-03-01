@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +31,8 @@ public class Role {
             joinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole" ),
             inverseJoinColumns = @JoinColumn(name = "id_privilege", referencedColumnName = "idPrivilege")
     )
-    private List<Privilege> privileges;
+    private Set<Privilege> privileges;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "role_user",
-            joinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole" ),
-            inverseJoinColumns = @JoinColumn(name = "id_user", referencedColumnName = "idUser")
-    )
-    private List<User> users;
+    @OneToMany(mappedBy = "role", cascade = {CascadeType.ALL})
+    private Set<User> users;
 }

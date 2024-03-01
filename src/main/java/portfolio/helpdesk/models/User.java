@@ -54,4 +54,8 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
     private Client client;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_role", foreignKey = @ForeignKey(name = "FK_USER_ROLE"))
+    private Role role;
 }

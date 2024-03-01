@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import portfolio.helpdesk.DTO.request.WorkerCreationDTO;
 import portfolio.helpdesk.mappers.WorkerMapper;
 import portfolio.helpdesk.models.Worker;
-import portfolio.helpdesk.services.IUserService;
 import portfolio.helpdesk.services.IWorkerService;
 
 import java.net.URI;
@@ -21,7 +20,6 @@ import java.net.URI;
 @RequestMapping("/workers")
 public class WorkerController {
     private final IWorkerService workerService;
-    private final IUserService userService;
     private final WorkerMapper workerMapper = WorkerMapper.INSTANCE;
 
     @Transactional
