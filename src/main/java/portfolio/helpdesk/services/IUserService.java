@@ -1,7 +1,7 @@
 package portfolio.helpdesk.services;
 
-import portfolio.helpdesk.models.User;
+import portfolio.helpdesk.models.UserData;
 
-public interface IUserService extends ICRUD<User, Integer> {
-    void findUserByUsernameOrEmail(String username, String email);
+public interface IUserService extends ICRUD<UserData, Integer> {
+    void findByUsernameOrEmail(String username, String email);
 }

@@ -1,7 +1,10 @@
 package portfolio.helpdesk.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -19,5 +22,5 @@ public class SecretQuestion {
     private String name;
 
     @OneToMany(mappedBy = "secretQuestion", cascade = {CascadeType.ALL})
-    private List<User> users;
+    private List<UserData> userData;
 }

@@ -19,5 +19,5 @@ public class Worker {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_WORKER_USER"))
-    private User user;
+    private UserData userData;
 }

@@ -27,7 +27,7 @@ public abstract class CrudImpl<T, ID> implements ICRUD<T, ID> {
 
     @Override
     public T findById(ID id) {
-        return getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException(id));
+        return getRepo().findById(id).orElseThrow(ModelNotFoundException::new);
     }
 
 

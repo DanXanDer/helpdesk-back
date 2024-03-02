@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.ClientCreationDTO;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Client;
-import portfolio.helpdesk.models.User;
+import portfolio.helpdesk.models.UserData;
 
 @Mapper
 public interface ClientMapper {
@@ -14,15 +14,15 @@ public interface ClientMapper {
 
 
     default Client convertToEntity(ClientCreationDTO clientCreationDTO) {
-        User user = userMapper.convertToEntity(clientCreationDTO.user());
+        UserData userData = userMapper.convertToEntity(clientCreationDTO.user());
         Area area = new Area();
         area.setIdArea(clientCreationDTO.idArea());
         Client client = new Client();
         client.setAnydesk(clientCreationDTO.anydesk());
         client.setTeamviewer(clientCreationDTO.teamviewer());
         client.setArea(area);
-        user.setClient(client);
-        client.setUser(user);
+        userData.setClient(client);
+        client.setUserData(userData);
         return client;
     }
 }

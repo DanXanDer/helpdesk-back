@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/verify-existence")
     public ResponseEntity<Void> verifyUserExistence(@Valid @RequestBody VerifyUserExistenceDTO verifyUserExistenceDTO) {
-        userService.findUserByUsernameOrEmail(verifyUserExistenceDTO.username(), verifyUserExistenceDTO.email());
+        userService.findByUsernameOrEmail(verifyUserExistenceDTO.username(), verifyUserExistenceDTO.email());
         return ResponseEntity.ok().build();
     }
 }

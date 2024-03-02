@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "user_data")
-public class User {
+public class UserData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,19 +45,24 @@ public class User {
     @Column(length = 100)
     private String secretAnswer;
 
-    @Column(nullable = false)
-    private boolean enabled = true;
+    @Column
+    private Boolean enabled = true;
 
-    @Column(nullable = false)
-    private boolean firstLogin = true;
+    @Column
+    private Boolean firstLogin = true;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "userData", cascade = {CascadeType.ALL})
     private Worker worker;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "userData", cascade = {CascadeType.ALL})
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "id_role", foreignKey = @ForeignKey(name = "FK_USER_ROLE"))
-    private Role role;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "idUser"),
+            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole")
+    )
+    private Set<Role> roles;
+
 }

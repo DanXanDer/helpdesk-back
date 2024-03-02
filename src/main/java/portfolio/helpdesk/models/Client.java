@@ -18,7 +18,7 @@ public class Client {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_CLIENT_USER"))
-    private User user;
+    private UserData userData;
 
     @ManyToOne
     @JoinColumn(

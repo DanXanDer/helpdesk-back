@@ -4,7 +4,7 @@ package portfolio.helpdesk.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.WorkerCreationDTO;
-import portfolio.helpdesk.models.User;
+import portfolio.helpdesk.models.UserData;
 import portfolio.helpdesk.models.Worker;
 
 @Mapper
@@ -13,10 +13,10 @@ public interface WorkerMapper {
     UserMapper userMapper = UserMapper.INSTANCE;
 
     default Worker convertToEntity(WorkerCreationDTO workerCreationDTO) {
-        User user = userMapper.convertToEntity(workerCreationDTO.user());
+        UserData userData = userMapper.convertToEntity(workerCreationDTO.user());
         Worker worker = new Worker();
-        worker.setUser(user);
-        user.setWorker(worker);
+        worker.setUserData(userData);
+        userData.setWorker(worker);
         return worker;
     }
 
