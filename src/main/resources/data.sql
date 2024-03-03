@@ -72,11 +72,3 @@ VALUES (5, 4);
 INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (6, 4);
 
--- Insertar usuarios
-INSERT INTO user_data(username, password, name, lastname, email, type)
-VALUES ('admin', '$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu', 'daniel', 'gonzales',
-        'danielsmart5@hotmail.com', 'Superadmin');
-
--- Insertar roles por usuario
-INSERT INTO user_role(id_user, id_role)
-VALUES (1, 1);

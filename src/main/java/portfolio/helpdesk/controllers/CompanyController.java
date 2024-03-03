@@ -26,7 +26,7 @@ public class CompanyController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody CompanyCreationDTO companyCreationDTO) {
-        companyService.findCompanyByName(companyCreationDTO.name());
+        companyService.findByName(companyCreationDTO.name());
         Company company = companyService.save(companyMapper.convertToEntity(companyCreationDTO));
         URI location = URI.create(String.format("/company/%d", company.getIdCompany()));
         return ResponseEntity.created(location).build();
@@ -43,8 +43,8 @@ public class CompanyController {
             @PathVariable("idCompany") Integer idCompany,
             @RequestBody @Valid CompanyNameUpdateDTO companyNameUpdateDTO) {
         String name = companyNameUpdateDTO.name();
-        companyService.findCompanyByName(name);
-        companyService.updateCompanyNameByIdCompany(idCompany, name);
+        companyService.findByName(name);
+        companyService.updateNameByIdCompany(idCompany, name);
         Company company = companyService.findById(idCompany);
         return ResponseEntity.ok(companyMapper.convertToDTO(company));
     }

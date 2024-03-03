@@ -22,7 +22,7 @@ public class AreaController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody AreaCreationDTO areaCreationDTO) {
-        areaService.findAreaByNameAndIdBranch(areaCreationDTO.name(), areaCreationDTO.idBranch());
+        areaService.findByNameAndIdBranch(areaCreationDTO.name(), areaCreationDTO.idBranch());
         Area area = areaService.save(areaMapper.convertToEntity(areaCreationDTO));
         URI location = URI.create(String.format("/area/%d", area.getIdArea()));
         return ResponseEntity.created(location).build();
@@ -35,7 +35,7 @@ public class AreaController {
     ) {
         Area area = areaService.findById(idArea);
         boolean newStatus = !area.isEnabled();
-        areaService.updateAreaStatusByIdArea(idArea, newStatus);
+        areaService.updateStatusByIdArea(idArea, newStatus);
         return ResponseEntity.ok(areaMapper.convertToDTO(area));
     }
 }

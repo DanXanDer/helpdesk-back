@@ -10,13 +10,11 @@ import java.util.Optional;
 @Repository
 public interface ICompanyRepo extends IGenericRepo<Company, Integer> {
 
-    Optional<Company> findCompanyByName(String name);
+    @Query("SELECT c FROM Company c WHERE c.name = ?1")
+    Optional<Company> findByName(String name);
 
     @Modifying
     @Query("UPDATE Company c SET c.name = ?2 where c.idCompany = ?1")
-    void updateCompanyNameByIdCompany(Integer idCompany, String name);
+    void updateNameByIdCompany(Integer idCompany, String name);
 
-    @Modifying
-    @Query("UPDATE Company c SET c.enabled = ?2 where c.idCompany = ?1")
-    void updateCompanyStatusByIdCompany(Integer idCompany, boolean status);
 }

@@ -20,14 +20,14 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     }
 
     @Override
-    public void findAreaByNameAndIdBranch(String name, Integer idBranch) {
+    public void findByNameAndIdBranch(String name, Integer idBranch) {
         getRepo().findByNameAndIdBranch(name, idBranch).ifPresent(branch -> {
             throw new ModelAlreadyExistsException("Area with name " + name + " already exists in branch with id " + idBranch);
         });
     }
 
     @Override
-    public void updateAreaStatusByIdArea(Integer idArea, boolean status) {
+    public void updateStatusByIdArea(Integer idArea, boolean status) {
         getRepo().findById(idArea).orElseThrow(ModelNotFoundException::new);
         getRepo().updateStatusByIdArea(idArea, status);
     }

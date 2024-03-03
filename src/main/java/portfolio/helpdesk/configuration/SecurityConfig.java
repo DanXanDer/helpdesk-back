@@ -8,10 +8,11 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import portfolio.helpdesk.services.implementation.UserServiceImpl;
+import portfolio.helpdesk.services.IUserService;
 
 
 @RequiredArgsConstructor
@@ -24,17 +25,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated()
-                ).csrf(csrf -> {
-                    csrf.ignoringRequestMatchers("/login");
-                });
+                        .anyRequest().permitAll()
+                ).csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            UserServiceImpl userDetailsService,
+            IUserService userDetailsService,
             PasswordEncoder passwordEncoder
     ) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -45,6 +44,6 @@ public class SecurityConfig {
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

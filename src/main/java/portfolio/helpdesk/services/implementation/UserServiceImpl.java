@@ -5,7 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUserService, UserDetailsService {
+public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUserService {
 
     private final IUserRepo userRepo;
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());

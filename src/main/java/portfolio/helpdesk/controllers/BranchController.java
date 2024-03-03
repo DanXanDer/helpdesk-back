@@ -22,7 +22,7 @@ public class BranchController {
 
     @PostMapping
     public ResponseEntity<Void> saveBranch(@Valid @RequestBody BranchCreationDTO branchCreationDTO) {
-        branchService.findBranchByNameAndCompany(branchCreationDTO.name(), branchCreationDTO.idCompany());
+        branchService.findByNameAndCompany(branchCreationDTO.name(), branchCreationDTO.idCompany());
         Branch branch = branchService.save(branchMapper.convertToEntity(branchCreationDTO));
         URI location = URI.create(String.format("/branch/%d", branch.getIdBranch()));
         return ResponseEntity.created(location).build();

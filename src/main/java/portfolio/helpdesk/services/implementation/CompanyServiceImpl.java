@@ -20,19 +20,19 @@ public class CompanyServiceImpl extends CrudImpl<Company, Integer> implements IC
     }
 
     @Override
-    public void findCompanyByName(String name) {
-        getRepo().findCompanyByName(name).ifPresent(company -> {
+    public void findByName(String name) {
+        getRepo().findByName(name).ifPresent(company -> {
             throw new ModelAlreadyExistsException("Company with name " + name + " already exists");
         });
     }
 
     @Override
     @Transactional
-    public void updateCompanyNameByIdCompany(Integer idCompany, String name) {
-        getRepo().findCompanyByName(name).ifPresent(company -> {
+    public void updateNameByIdCompany(Integer idCompany, String name) {
+        getRepo().findByName(name).ifPresent(company -> {
             throw new ModelAlreadyExistsException("Company with name " + name + " already exists");
         });
-        getRepo().updateCompanyNameByIdCompany(idCompany, name);
+        getRepo().updateNameByIdCompany(idCompany, name);
     }
 
 }
