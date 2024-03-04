@@ -16,11 +16,6 @@ public abstract class CrudImpl<T, ID> implements ICRUD<T, ID> {
     }
 
     @Override
-    public T update(T t) {
-        return getRepo().save(t);
-    }
-
-    @Override
     public List<T> findAll() {
         return getRepo().findAll();
     }

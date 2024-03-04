@@ -30,5 +30,4 @@ public class WorkerController {
         return ResponseEntity.created(location).build();
     }
 
-
 }

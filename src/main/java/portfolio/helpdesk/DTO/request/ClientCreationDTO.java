@@ -5,12 +5,12 @@ import jakarta.validation.constraints.Size;
 
 public record ClientCreationDTO(
         @NotNull
+        Integer idUser,
+        @NotNull
         Integer idArea,
         @Size(min = 9, max = 9, message = "El ID de AnyDesk debe tener 9 caracteres")
         String anydesk,
         @Size(min = 9, max = 9, message = "El ID de TeamViewer debe tener 9 caracteres")
-        String teamviewer,
-        @NotNull(message = "El usuario no puede ser nulo")
-        UserCreationDTO user
+        String teamviewer
 ) {
 }

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -39,9 +37,6 @@ public class UserData {
     @Column(nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false, length = 100)
-    private String type;
-
     @Column(length = 100)
     private String secretAnswer;
 
@@ -51,18 +46,17 @@ public class UserData {
     @Column
     private Boolean firstLogin = true;
 
-    @OneToOne(mappedBy = "userData", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "userData")
     private Worker worker;
 
-    @OneToOne(mappedBy = "userData", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "userData")
     private Client client;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "idUser"),
-            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole")
-    )
-    private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "id_role",
+            foreignKey = @ForeignKey(name = "FK_USER_ROLE"))
+    private Role role;
 
 }

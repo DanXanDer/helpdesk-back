@@ -72,3 +72,14 @@ VALUES (5, 4);
 INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (6, 4);
 
+-- Insertar preguntas secretas
+INSERT INTO secret_question(name)
+VALUES ('¿Cuál es el nombre de tu mascota?');
+INSERT INTO secret_question(name)
+VALUES ('¿Cuál es tu comida favorita?');
+INSERT INTO secret_question(name)
+VALUES ('¿Cuál es tu color favorito?');
+INSERT INTO secret_question(name)
+VALUES ('¿Cuál es tu película favorita?');
+INSERT INTO secret_question(name)
+VALUES ('¿Cuál es tu libro favorito?');

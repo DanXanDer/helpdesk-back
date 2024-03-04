@@ -13,19 +13,11 @@ public interface WorkerMapper {
     UserMapper userMapper = UserMapper.INSTANCE;
 
     default Worker convertToEntity(WorkerCreationDTO workerCreationDTO) {
-        UserData userData = userMapper.convertToEntity(workerCreationDTO.user());
+        UserData user = new UserData();
+        user.setIdUser(workerCreationDTO.idUser());
         Worker worker = new Worker();
-        worker.setUserData(userData);
-        userData.setWorker(worker);
+        worker.setUserData(user);
         return worker;
     }
 
-    /*@Mapping(source = "user.idUser", target = "idUser")
-    @Mapping(source = "user.username", target = "username")
-    @Mapping(source = "user.name", target = "name")
-    @Mapping(source = "user.lastname", target = "lastname")
-    @Mapping(source = "user.email", target = "email")
-    @Mapping(source = "user.type", target = "type")
-    @Mapping(source = "user.enabled", target = "enabled")
-    WorkerResponseDTO convertToDTO(Worker worker);*/
 }

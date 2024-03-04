@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.BranchCreationDTO;
 import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.mappers.BranchMapper;
-import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.services.IBranchService;
 
 import java.net.URI;
@@ -23,8 +22,9 @@ public class BranchController {
     @PostMapping
     public ResponseEntity<Void> saveBranch(@Valid @RequestBody BranchCreationDTO branchCreationDTO) {
         branchService.findByNameAndCompany(branchCreationDTO.name(), branchCreationDTO.idCompany());
-        Branch branch = branchService.save(branchMapper.convertToEntity(branchCreationDTO));
-        URI location = URI.create(String.format("/branch/%d", branch.getIdBranch()));
+        BranchResponseDTO branch = branchMapper
+                .convertToDTO(branchService.save(branchMapper.convertToEntity(branchCreationDTO)));
+        URI location = URI.create(String.format("/branch/%d", branch.idBranch()));
         return ResponseEntity.created(location).build();
     }
 
@@ -32,12 +32,8 @@ public class BranchController {
     @Transactional
     public ResponseEntity<BranchResponseDTO> updateBranchStatus(
             @PathVariable("idBranch") Integer idBranch) {
-        Branch branch = branchService.findById(idBranch);
-        boolean newStatus = !branch.isEnabled();
-        branch.setEnabled(newStatus);
-        branch.getAreas().forEach(area -> area.setEnabled(newStatus));
-        branchService.save(branch);
-        return ResponseEntity.ok(branchMapper.convertToDTO(branch));
+        branchService.updateStatus(idBranch);
+        return ResponseEntity.ok().build();
     }
 
 }

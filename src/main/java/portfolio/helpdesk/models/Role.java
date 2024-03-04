@@ -33,6 +33,6 @@ public class Role {
     )
     private Set<Privilege> privileges;
 
-    @ManyToMany
-    private Set<UserData> roles;
+    @OneToMany(mappedBy = "role", cascade = {CascadeType.ALL})
+    private Set<UserData> users;
 }

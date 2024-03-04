@@ -7,7 +7,6 @@ import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.repositories.IAreaRepo;
 import portfolio.helpdesk.services.IAreaService;
-
 @RequiredArgsConstructor
 @Service
 public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaService {
@@ -27,9 +26,10 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     }
 
     @Override
-    public void updateStatusByIdArea(Integer idArea, boolean status) {
-        getRepo().findById(idArea).orElseThrow(ModelNotFoundException::new);
-        getRepo().updateStatusByIdArea(idArea, status);
+    public void updateStatusByIdArea(Integer idArea) {
+        Area area = getRepo().findById(idArea).orElseThrow(ModelNotFoundException::new);
+        boolean newStatus = !area.isEnabled();
+        getRepo().updateStatusByIdArea(idArea, newStatus);
     }
 
 }

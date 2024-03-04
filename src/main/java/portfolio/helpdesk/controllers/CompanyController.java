@@ -9,7 +9,6 @@ import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
 import portfolio.helpdesk.DTO.request.CompanyNameUpdateDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.mappers.CompanyMapper;
-import portfolio.helpdesk.models.Company;
 import portfolio.helpdesk.services.ICompanyService;
 
 import java.net.URI;
@@ -27,8 +26,10 @@ public class CompanyController {
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody CompanyCreationDTO companyCreationDTO) {
         companyService.findByName(companyCreationDTO.name());
-        Company company = companyService.save(companyMapper.convertToEntity(companyCreationDTO));
-        URI location = URI.create(String.format("/company/%d", company.getIdCompany()));
+        CompanyResponseDTO company = companyMapper.convertToDTO(
+                companyService.save(companyMapper.convertToEntity(companyCreationDTO))
+        );
+        URI location = URI.create(String.format("/company/%d", company.idCompany()));
         return ResponseEntity.created(location).build();
     }
 
@@ -39,28 +40,19 @@ public class CompanyController {
     }
 
     @PatchMapping("/{idCompany}/name")
-    public ResponseEntity<CompanyResponseDTO> updateName(
+    public ResponseEntity<Void> updateName(
             @PathVariable("idCompany") Integer idCompany,
             @RequestBody @Valid CompanyNameUpdateDTO companyNameUpdateDTO) {
-        String name = companyNameUpdateDTO.name();
-        companyService.findByName(name);
-        companyService.updateNameByIdCompany(idCompany, name);
-        Company company = companyService.findById(idCompany);
-        return ResponseEntity.ok(companyMapper.convertToDTO(company));
+        companyService.findByName(companyNameUpdateDTO.name());
+        companyService.updateNameByIdCompany(idCompany, companyNameUpdateDTO.name());
+        return ResponseEntity.ok().build();
     }
 
     @Transactional
     @PutMapping("/{idCompany}/status")
-    public ResponseEntity<CompanyResponseDTO> updateStatus(
+    public ResponseEntity<Void> updateStatus(
             @PathVariable("idCompany") Integer idCompany) {
-        Company company = companyService.findById(idCompany);
-        boolean newStatus = !company.isEnabled();
-        company.setEnabled(newStatus);
-        company.getBranches().forEach(branch -> {
-            branch.setEnabled(newStatus);
-            branch.getAreas().forEach(area -> area.setEnabled(newStatus));
-        });
-        companyService.update(company);
-        return ResponseEntity.ok(companyMapper.convertToDTO(company));
+        companyService.updateStatus(idCompany);
+        return ResponseEntity.ok().build();
     }
 }

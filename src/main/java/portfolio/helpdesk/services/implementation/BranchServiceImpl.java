@@ -3,6 +3,7 @@ package portfolio.helpdesk.services.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
+import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.repositories.IBranchRepo;
 import portfolio.helpdesk.services.IBranchService;
@@ -23,6 +24,15 @@ public class BranchServiceImpl extends CrudImpl<Branch, Integer> implements IBra
         getRepo().findBranchByNameAndIdCompany(name, idCompany).ifPresent(branch -> {
             throw new ModelAlreadyExistsException("Branch with name " + name + " already exists in company with id " + idCompany);
         });
+    }
+
+    @Override
+    public void updateStatus(Integer idBranch) {
+        Branch branch = getRepo().findById(idBranch).orElseThrow(ModelNotFoundException::new);
+        boolean newStatus = !branch.isEnabled();
+        branch.setEnabled(newStatus);
+        branch.getAreas().forEach(area -> area.setEnabled(newStatus));
+        getRepo().save(branch);
     }
 
 }

@@ -12,17 +12,16 @@ public interface ClientMapper {
     UserMapper userMapper = UserMapper.INSTANCE;
     ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
-
     default Client convertToEntity(ClientCreationDTO clientCreationDTO) {
-        UserData userData = userMapper.convertToEntity(clientCreationDTO.user());
+        UserData user = new UserData();
+        user.setIdUser(clientCreationDTO.idUser());
         Area area = new Area();
         area.setIdArea(clientCreationDTO.idArea());
         Client client = new Client();
         client.setAnydesk(clientCreationDTO.anydesk());
         client.setTeamviewer(clientCreationDTO.teamviewer());
         client.setArea(area);
-        userData.setClient(client);
-        client.setUserData(userData);
+        client.setUserData(user);
         return client;
     }
 }
