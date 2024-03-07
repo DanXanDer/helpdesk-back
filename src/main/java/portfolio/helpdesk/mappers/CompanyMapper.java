@@ -1,9 +1,11 @@
 package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
-import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
+import portfolio.helpdesk.DTO.request.CompanyUpdateDTO;
+import portfolio.helpdesk.DTO.response.CompanyResponse;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.models.Company;
 
@@ -24,12 +26,15 @@ public interface CompanyMapper {
         return company;
     }
 
-    default CompanyResponseDTO convertToDTO(Company company) {
-        return new CompanyResponseDTO(
+    default CompanyResponse convertToDTO(Company company) {
+        return new CompanyResponse(
                 company.getIdCompany(),
                 company.getName(),
                 company.isEnabled(),
                 company.getBranches().stream().map(branchMapper::convertToDTO).collect(Collectors.toSet())
         );
     }
+
+    void updateFromDTO(CompanyUpdateDTO companyUpdateDTO, @MappingTarget Company company);
+
 }

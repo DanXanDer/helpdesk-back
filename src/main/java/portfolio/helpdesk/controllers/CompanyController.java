@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
-import portfolio.helpdesk.DTO.request.CompanyNameUpdateDTO;
-import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
+import portfolio.helpdesk.DTO.request.CompanyUpdateDTO;
+import portfolio.helpdesk.DTO.response.CompanyResponse;
 import portfolio.helpdesk.mappers.CompanyMapper;
 import portfolio.helpdesk.services.ICompanyService;
 
@@ -25,26 +25,20 @@ public class CompanyController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody CompanyCreationDTO companyCreationDTO) {
-        companyService.findByName(companyCreationDTO.name());
-        CompanyResponseDTO company = companyMapper.convertToDTO(
-                companyService.save(companyMapper.convertToEntity(companyCreationDTO))
-        );
+        CompanyResponse company = companyMapper.convertToDTO(companyService.save(companyCreationDTO));
         URI location = URI.create(String.format("/company/%d", company.idCompany()));
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping
-    public ResponseEntity<Set<CompanyResponseDTO>> findAll() {
-        Set<CompanyResponseDTO> companyList = companyService.findAll().stream().map(companyMapper::convertToDTO).collect(Collectors.toSet());
+    public ResponseEntity<Set<CompanyResponse>> findAll() {
+        Set<CompanyResponse> companyList = companyService.findAll().stream().map(companyMapper::convertToDTO).collect(Collectors.toSet());
         return ResponseEntity.ok(companyList);
     }
 
-    @PatchMapping("/{idCompany}/name")
-    public ResponseEntity<Void> updateName(
-            @PathVariable("idCompany") Integer idCompany,
-            @RequestBody @Valid CompanyNameUpdateDTO companyNameUpdateDTO) {
-        companyService.findByName(companyNameUpdateDTO.name());
-        companyService.updateNameByIdCompany(idCompany, companyNameUpdateDTO.name());
+    @PatchMapping("/name-update")
+    public ResponseEntity<Void> updateName(@RequestBody @Valid CompanyUpdateDTO companyUpdateDTO) {
+        companyService.updateNameByIdCompany(companyUpdateDTO);
         return ResponseEntity.ok().build();
     }
 

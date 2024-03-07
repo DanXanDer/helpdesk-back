@@ -3,7 +3,7 @@ package portfolio.helpdesk.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.BranchCreationDTO;
-import portfolio.helpdesk.DTO.response.BranchResponseDTO;
+import portfolio.helpdesk.DTO.response.BranchResponse;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.models.Company;
@@ -28,8 +28,8 @@ public interface BranchMapper {
         return branch;
     }
 
-    default BranchResponseDTO convertToDTO(Branch branch) {
-        return new BranchResponseDTO(
+    default BranchResponse convertToDTO(Branch branch) {
+        return new BranchResponse(
                 branch.getIdBranch(),
                 branch.getCompany().getName(),
                 branch.getName(),

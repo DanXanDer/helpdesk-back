@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.SecretQuestionCreationDTO;
-import portfolio.helpdesk.DTO.response.SecretQuestionResponseDTO;
+import portfolio.helpdesk.DTO.response.SecretQuestionResponse;
 import portfolio.helpdesk.mappers.SecretQuestionMapper;
 import portfolio.helpdesk.models.SecretQuestion;
 import portfolio.helpdesk.services.ISecretQuestionService;
@@ -29,8 +29,8 @@ public class SecretQuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SecretQuestionResponseDTO>> findAll(){
-        List<SecretQuestionResponseDTO> secretQuestionsDTO = secretQuestionService.findAll().stream().map(sqMapper::convertToDTO).toList();
+    public ResponseEntity<List<SecretQuestionResponse>> findAll() {
+        List<SecretQuestionResponse> secretQuestionsDTO = secretQuestionService.findAll().stream().map(sqMapper::convertToDTO).toList();
         return ResponseEntity.ok(secretQuestionsDTO);
     }
 }

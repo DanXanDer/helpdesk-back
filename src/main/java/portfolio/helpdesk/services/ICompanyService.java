@@ -1,11 +1,14 @@
 package portfolio.helpdesk.services;
 
+import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
+import portfolio.helpdesk.DTO.request.CompanyUpdateDTO;
 import portfolio.helpdesk.models.Company;
 
 public interface ICompanyService extends ICRUD<Company, Integer> {
-    void findByName(String name);
 
-    void updateNameByIdCompany(Integer idCompany, String name);
+    void updateNameByIdCompany(CompanyUpdateDTO companyUpdateDTO);
 
     void updateStatus(Integer idCompany);
+
+    Company save(CompanyCreationDTO companyCreationDTO);
 }

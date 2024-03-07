@@ -1,6 +1,6 @@
 package portfolio.helpdesk.DTO.response;
 
-public record AreaResponseDTO(
+public record AreaResponse(
         Integer idArea,
         String branchName,
         String name,

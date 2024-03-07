@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.BranchCreationDTO;
-import portfolio.helpdesk.DTO.response.BranchResponseDTO;
+import portfolio.helpdesk.DTO.response.BranchResponse;
 import portfolio.helpdesk.mappers.BranchMapper;
 import portfolio.helpdesk.services.IBranchService;
 
@@ -21,16 +21,14 @@ public class BranchController {
 
     @PostMapping
     public ResponseEntity<Void> saveBranch(@Valid @RequestBody BranchCreationDTO branchCreationDTO) {
-        branchService.findByNameAndCompany(branchCreationDTO.name(), branchCreationDTO.idCompany());
-        BranchResponseDTO branch = branchMapper
-                .convertToDTO(branchService.save(branchMapper.convertToEntity(branchCreationDTO)));
+        BranchResponse branch = branchMapper.convertToDTO(branchService.save(branchCreationDTO));
         URI location = URI.create(String.format("/branch/%d", branch.idBranch()));
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{idBranch}/status")
     @Transactional
-    public ResponseEntity<BranchResponseDTO> updateBranchStatus(
+    public ResponseEntity<BranchResponse> updateBranchStatus(
             @PathVariable("idBranch") Integer idBranch) {
         branchService.updateStatus(idBranch);
         return ResponseEntity.ok().build();

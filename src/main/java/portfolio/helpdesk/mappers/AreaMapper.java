@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.AreaCreationDTO;
-import portfolio.helpdesk.DTO.response.AreaResponseDTO;
+import portfolio.helpdesk.DTO.response.AreaResponse;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Branch;
 
@@ -22,5 +22,6 @@ public interface AreaMapper {
     }
 
     @Mapping(target = "branchName", source = "branch.name")
-    AreaResponseDTO convertToDTO(Area area);
+    AreaResponse convertToDTO(Area area);
+
 }

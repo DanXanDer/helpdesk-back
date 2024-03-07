@@ -1,6 +1,6 @@
 package portfolio.helpdesk.DTO.response;
 
-public record UserResponseDTO(
+public record UserResponse(
         Integer idUser,
         String username,
         String name,

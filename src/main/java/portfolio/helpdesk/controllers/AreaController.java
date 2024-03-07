@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.AreaCreationDTO;
-import portfolio.helpdesk.DTO.response.AreaResponseDTO;
+import portfolio.helpdesk.DTO.response.AreaResponse;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.services.IAreaService;
 
@@ -21,9 +21,7 @@ public class AreaController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody AreaCreationDTO areaCreationDTO) {
-        areaService.findByNameAndIdBranch(areaCreationDTO.name(), areaCreationDTO.idBranch());
-        AreaResponseDTO area = areaMapper
-                .convertToDTO(areaService.save(areaMapper.convertToEntity(areaCreationDTO)));
+        AreaResponse area = areaMapper.convertToDTO(areaService.save(areaCreationDTO));
         URI location = URI.create(String.format("/area/%d", area.idArea()));
         return ResponseEntity.created(location).build();
     }

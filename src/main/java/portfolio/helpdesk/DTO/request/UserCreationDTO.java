@@ -9,8 +9,10 @@ public record UserCreationDTO(
         Integer idRole,
         @Size(min = 3, max = 100, message = "El nombre de usuario debe tener entre 3 y 100 caracteres.")
         String username,
-        @Size(min = 8, max = 100, message = "La contraseña debe tener entre 3 y 100 caracteres.")
+        @Size(min = 5, max = 100, message = "La contraseña debe tener entre 3 y 100 caracteres.")
         String password,
+        @Size(min = 5, max = 100, message = "La contraseña debe tener entre 3 y 100 caracteres.")
+        String rePassword,
         @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres.")
         String name,
         @Size(min = 3, max = 100, message = "El apellido debe tener entre 3 y 100 caracteres.")

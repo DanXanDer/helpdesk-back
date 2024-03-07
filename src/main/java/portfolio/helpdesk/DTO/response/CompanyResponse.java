@@ -2,9 +2,9 @@ package portfolio.helpdesk.DTO.response;
 
 import java.util.Set;
 
-public record CompanyResponseDTO(
+public record CompanyResponse(
         Integer idCompany,
         String name,
         boolean enabled,
-        Set<BranchResponseDTO> branches) {
+        Set<BranchResponse> branches) {
 }
