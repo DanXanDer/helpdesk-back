@@ -26,11 +26,11 @@ public class CompanyServiceImpl extends CrudImpl<Company, Integer> implements IC
 
     @Override
     @Transactional
-    public void updateNameByIdCompany(CompanyUpdateDTO companyUpdateDTO) {
+    public void updateNameByIdCompany(Integer idCompany, CompanyUpdateDTO companyUpdateDTO) {
         getRepo().findByName(companyUpdateDTO.name()).ifPresent(comp -> {
             throw new ModelAlreadyExistsException("Company with name " + comp.getName() + " already exists");
         });
-        Company company = getRepo().findById(companyUpdateDTO.idCompany()).orElseThrow(() -> new ModelNotFoundException("No se encontró la compañía"));
+        Company company = getRepo().findById(idCompany).orElseThrow(() -> new ModelNotFoundException("No se encontró la compañía"));
         companyMapper.updateFromDTO(companyUpdateDTO, company);
         companyRepo.save(company);
     }

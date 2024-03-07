@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import portfolio.helpdesk.DTO.request.UserCreationDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
-import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswer;
+import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
 import portfolio.helpdesk.models.UserData;
 
 public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsService {
@@ -13,11 +13,11 @@ public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsServi
 
     UserData save(UserCreationDTO userCreationDTO);
 
-    void completeRegistration(UserUpdateDTO userUpdateDTO);
+    void completeRegistration(Integer idUser, UserUpdateDTO userUpdateDTO);
 
     UserData validateUserData(ValidateUserDataRequestDTO validateUserDataRequestDTO);
 
-    void validateSecretAnswer(ValidateUserSecretAnswer validateUserSecretAnswer);
+    void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO);
 
-    void restorePassword(UserUpdateDTO userUpdateDTO);
+    void restorePassword(Integer idUser, UserUpdateDTO userUpdateDTO);
 }

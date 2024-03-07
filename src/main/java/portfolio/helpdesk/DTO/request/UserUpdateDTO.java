@@ -1,13 +1,10 @@
 package portfolio.helpdesk.DTO.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record UserUpdateDTO(
-        @NotNull(message = "El id del usuario no puede ser nulo")
-        Integer idUser,
         Integer idSecretQuestion,
         @Size(min = 5, max = 100, message = "La clave debe tener entre 5 y 100 caracteres")
         String password,

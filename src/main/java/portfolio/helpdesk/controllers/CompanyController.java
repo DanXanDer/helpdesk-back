@@ -36,9 +36,9 @@ public class CompanyController {
         return ResponseEntity.ok(companyList);
     }
 
-    @PatchMapping("/name-update")
-    public ResponseEntity<Void> updateName(@RequestBody @Valid CompanyUpdateDTO companyUpdateDTO) {
-        companyService.updateNameByIdCompany(companyUpdateDTO);
+    @PatchMapping("/{idCompany}/name-update")
+    public ResponseEntity<Void> updateName(@PathVariable("idCompany") Integer idCompany, @RequestBody @Valid CompanyUpdateDTO companyUpdateDTO) {
+        companyService.updateNameByIdCompany(idCompany, companyUpdateDTO);
         return ResponseEntity.ok().build();
     }
 

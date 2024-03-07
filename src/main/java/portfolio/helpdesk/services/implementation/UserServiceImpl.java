@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import portfolio.helpdesk.DTO.request.UserCreationDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
-import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswer;
+import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
 import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.exceptions.PasswordsDontMatchException;
@@ -53,8 +53,8 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
-    public void completeRegistration(UserUpdateDTO userUpdateDTO) {
-        UserData user = getRepo().findById(userUpdateDTO.idUser()).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void completeRegistration(Integer idUser, UserUpdateDTO userUpdateDTO) {
+        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         userMapper.updateFromDTO(userUpdateDTO, user);
         user.setPassword(encoder.encode(userUpdateDTO.password()));
         user.setSecretAnswer(encoder.encode(userUpdateDTO.secretAnswer()));
@@ -68,16 +68,16 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
-    public void validateSecretAnswer(ValidateUserSecretAnswer validateUserSecretAnswer) {
-        UserData user = getRepo().findById(validateUserSecretAnswer.idUser()).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
-        if (!encoder.matches(validateUserSecretAnswer.secretAnswer(), user.getSecretAnswer())) {
+    public void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO) {
+        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+        if (!encoder.matches(validateUserSecretAnswerDTO.secretAnswer(), user.getSecretAnswer())) {
             throw new ModelNotFoundException("Secret answer is incorrect");
         }
     }
 
     @Override
-    public void restorePassword(UserUpdateDTO userUpdateDTO) {
-        UserData user = getRepo().findById(userUpdateDTO.idUser()).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void restorePassword(Integer idUser, UserUpdateDTO userUpdateDTO) {
+        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         user.setPassword(encoder.encode(userUpdateDTO.password()));
         getRepo().save(user);
     }

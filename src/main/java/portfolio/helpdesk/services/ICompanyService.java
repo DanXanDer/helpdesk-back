@@ -6,7 +6,7 @@ import portfolio.helpdesk.models.Company;
 
 public interface ICompanyService extends ICRUD<Company, Integer> {
 
-    void updateNameByIdCompany(CompanyUpdateDTO companyUpdateDTO);
+    void updateNameByIdCompany(Integer idCompany, CompanyUpdateDTO companyUpdateDTO);
 
     void updateStatus(Integer idCompany);
 

@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public record CompanyUpdateDTO(
         @NotNull
-        Integer idCompany,
-        @NotNull
         @Size(min = 3, max = 100)
         String name) {
 
