@@ -35,4 +35,5 @@ public class Role {
 
     @OneToMany(mappedBy = "role", cascade = {CascadeType.ALL})
     private Set<UserData> users;
+
 }

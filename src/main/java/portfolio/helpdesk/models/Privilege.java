@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+
 public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +23,12 @@ public class Privilege {
     private String icon;
 
     @Column(nullable = false, length = 50)
-    private String name;
+    private String authority;
 
     @Column(nullable = false, length = 100)
     private String url;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "privileges")
     private Set<Role> roles;
 
 }

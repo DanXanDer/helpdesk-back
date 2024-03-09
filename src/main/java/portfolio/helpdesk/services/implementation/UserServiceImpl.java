@@ -1,9 +1,6 @@
 package portfolio.helpdesk.services.implementation;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,16 +9,18 @@ import portfolio.helpdesk.DTO.request.UserCreationDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
+import portfolio.helpdesk.DTO.response.PrivilegeResponse;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
 import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.exceptions.PasswordsDontMatchException;
+import portfolio.helpdesk.mappers.PrivilegeMapper;
 import portfolio.helpdesk.mappers.UserMapper;
 import portfolio.helpdesk.models.UserData;
 import portfolio.helpdesk.repositories.IUserRepo;
 import portfolio.helpdesk.services.IUserService;
 
-import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +28,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
 
     private final IUserRepo userRepo;
     private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final PrivilegeMapper privilegeMapper = PrivilegeMapper.INSTANCE;
     private final PasswordEncoder encoder;
 
     @Override
@@ -86,8 +86,9 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     public UserDetails loadUserByUsername(String username) {
         UserData user = getRepo().findByUsernameOrEmail(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        Set<GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new User(user.getUsername(), user.getPassword(), authorities);
+        Set<PrivilegeResponse> authorities = user.getRole().getPrivileges().stream().map(
+                privilegeMapper::convertToDTO).collect(Collectors.toSet());
+        return userMapper.convertToCustomUserDetails(user, authorities);
     }
 
 }

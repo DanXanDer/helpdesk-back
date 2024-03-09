@@ -10,8 +10,6 @@ import portfolio.helpdesk.models.SecretQuestion;
 public interface SecretQuestionMapper {
 
     SecretQuestionMapper INSTANCE = Mappers.getMapper(SecretQuestionMapper.class);
-
     SecretQuestion convertToEntity(SecretQuestionCreationDTO secretQuestionCreationDTO);
-
     SecretQuestionResponse convertToDTO(SecretQuestion secretQuestion);
 }

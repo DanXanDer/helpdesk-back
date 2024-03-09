@@ -1,20 +1,20 @@
-INSERT INTO privilege(icon, name, url)
+/*INSERT INTO privilege(icon, authority, url)
 VALUES ('report', 'Reportar incidente', 'reportar-incidente');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('manage_accounts', 'Gestionar usuarios', 'gestionar-usuarios');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('flag_circle', 'Mis reportes', 'mis-reportes');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('person', 'Actualizar información', 'actualizar-informacion');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('summarize', 'Incidentes reportados', 'incidentes-reportados');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('confirmation_number', 'Mis tickets', 'mis-tickets');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('person_add', 'Crear usuario', 'crear-usuario');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('confirmation_number', 'Ver tickets', 'ver-tickets');
-INSERT INTO privilege(icon, name, url)
+INSERT INTO privilege(icon, authority, url)
 VALUES ('add_business', 'Agregar empresa', 'agregar-empresa');
 
 -- Insertar roles
@@ -82,4 +82,4 @@ VALUES ('¿Cuál es tu color favorito?');
 INSERT INTO secret_question(name)
 VALUES ('¿Cuál es tu película favorita?');
 INSERT INTO secret_question(name)
-VALUES ('¿Cuál es tu libro favorito?');
+VALUES ('¿Cuál es tu libro favorito?');*/

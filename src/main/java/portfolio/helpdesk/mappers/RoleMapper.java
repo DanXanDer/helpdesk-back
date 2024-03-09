@@ -8,6 +8,5 @@ import portfolio.helpdesk.models.Role;
 @Mapper
 public interface RoleMapper {
     RoleMapper INSTANCE = Mappers.getMapper(RoleMapper.class);
-
     RoleResponse convertToDTO(Role role);
 }

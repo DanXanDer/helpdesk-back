@@ -9,8 +9,7 @@ import portfolio.helpdesk.DTO.request.UserUpdateDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
 import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
 import portfolio.helpdesk.DTO.response.UserResponse;
-import portfolio.helpdesk.DTO.response.ValidateUserDataResponseDTO;
-import portfolio.helpdesk.mappers.RestorePasswordMapper;
+import portfolio.helpdesk.DTO.response.ValidateUserDataResponse;
 import portfolio.helpdesk.mappers.UserMapper;
 import portfolio.helpdesk.models.UserData;
 import portfolio.helpdesk.services.IUserService;
@@ -23,12 +22,11 @@ import java.net.URI;
 public class UserController {
     private final IUserService userService;
     private final UserMapper userMapper = UserMapper.INSTANCE;
-    private final RestorePasswordMapper restorePasswordMapper = RestorePasswordMapper.INSTANCE;
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody UserCreationDTO userCreationDTO) {
         userService.validatePasswords(userCreationDTO.password(), userCreationDTO.rePassword());
-        UserResponse user = userMapper.convertToDTO(userService.save(userCreationDTO));
+        UserResponse user = userMapper.convertToUserDTO(userService.save(userCreationDTO));
         URI location = URI.create(String.format("/users/%s", user.idUser()));
         return ResponseEntity.created(location).build();
     }
@@ -41,9 +39,9 @@ public class UserController {
     }
 
     @PostMapping("/validate-user-data")
-    public ResponseEntity<ValidateUserDataResponseDTO> validateUserData(@Valid @RequestBody ValidateUserDataRequestDTO validateUserDataRequestDTO) {
+    public ResponseEntity<ValidateUserDataResponse> validateUserData(@Valid @RequestBody ValidateUserDataRequestDTO validateUserDataRequestDTO) {
         UserData user = userService.validateUserData(validateUserDataRequestDTO);
-        return ResponseEntity.ok(restorePasswordMapper.convertToDTO(user));
+        return ResponseEntity.ok(userMapper.convertToValidateUserDataDTO(user));
     }
 
     @PostMapping("/{idUser}/validate-secret-answer")
