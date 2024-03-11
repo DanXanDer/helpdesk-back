@@ -14,10 +14,10 @@ import lombok.Setter;
 public class Worker {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idWorker;
+    private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_WORKER_USER"))
+    @MapsId
+    @JoinColumn(name = "id")
     private UserData userData;
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record UserUpdateDTO(
-        Integer idSecretQuestion,
+        Integer secretQuestion,
         @Size(min = 5, max = 100, message = "La clave debe tener entre 5 y 100 caracteres")
         String password,
         @Size(min = 5, max = 100, message = "La clave debe tener entre 5 y 100 caracteres")

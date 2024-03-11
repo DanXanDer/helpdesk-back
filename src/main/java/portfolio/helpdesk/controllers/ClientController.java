@@ -24,7 +24,7 @@ public class ClientController {
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody ClientCreationDTO clientCreationDTO) {
         Client client = clientService.save(clientMapper.convertToEntity(clientCreationDTO));
-        URI location = URI.create(String.format("/clients/%d", client.getIdClient()));
+        URI location = URI.create(String.format("/clients/%d", client.getId()));
         return ResponseEntity.created(location).build();
     }
 

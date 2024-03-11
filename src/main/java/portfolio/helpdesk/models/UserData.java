@@ -16,7 +16,7 @@ public class UserData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUser;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "id_secret_question", foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
@@ -45,7 +45,6 @@ public class UserData {
 
     @Column
     private Boolean enabled = true;
-
 
     @OneToOne(mappedBy = "userData")
     private Worker worker;

@@ -1,7 +1,7 @@
 package portfolio.helpdesk.DTO.response;
 
 public record ValidateUserDataResponse(
-        Integer idUser,
+        Integer id,
         String secretQuestion
 ) {
 }

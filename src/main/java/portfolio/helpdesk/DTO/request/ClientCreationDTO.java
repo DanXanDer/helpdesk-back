@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public record ClientCreationDTO(
         @NotNull
-        Integer idUser,
+        Integer id,
         @NotNull
         Integer idArea,
         @Size(min = 9, max = 9, message = "El ID de AnyDesk debe tener 9 caracteres")

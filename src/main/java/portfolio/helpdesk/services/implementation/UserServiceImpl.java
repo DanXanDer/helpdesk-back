@@ -37,6 +37,13 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
+    public void findByUsernameOrEmail(String username, String email) {
+        getRepo().findByUsernameOrEmail(username, email).ifPresent(user -> {
+            throw new ModelAlreadyExistsException("Usuario o correo electrónico ya existe");
+        });
+    }
+
+    @Override
     public void validatePasswords(String password, String rePassword) {
         if (!password.equals(rePassword)) {
             System.out.println(rePassword);
@@ -47,17 +54,13 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
 
     @Override
     public UserData save(UserCreationDTO userCreationDTO) {
-        getRepo().findByUsernameOrEmail(userCreationDTO.username(), userCreationDTO.email()).ifPresent(user -> {
-            throw new ModelAlreadyExistsException("Usuario o correo electrónico ya existe");
-        });
         UserData user = userMapper.convertToEntity(userCreationDTO);
         user.setPassword(encoder.encode(userCreationDTO.password()));
         return getRepo().save(user);
     }
-
     @Override
-    public void completeRegistration(Integer idUser, UserUpdateDTO userUpdateDTO) {
-        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void completeRegistration(Integer id, UserUpdateDTO userUpdateDTO) {
+        UserData user = getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         userMapper.updateFromDTO(userUpdateDTO, user);
         user.setPassword(encoder.encode(userUpdateDTO.password()));
         user.setSecretAnswer(encoder.encode(userUpdateDTO.secretAnswer()));
@@ -72,23 +75,23 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
-    public void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO) {
-        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void validateSecretAnswer(Integer id, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO) {
+        UserData user = getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         if (!encoder.matches(validateUserSecretAnswerDTO.secretAnswer(), user.getSecretAnswer())) {
             throw new ModelNotFoundException("La respuesta secreta es incorrecta");
         }
     }
 
     @Override
-    public void restorePassword(Integer idUser, UserUpdateDTO userUpdateDTO) {
-        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void restorePassword(Integer id, UserUpdateDTO userUpdateDTO) {
+        UserData user = getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         user.setPassword(encoder.encode(userUpdateDTO.password()));
         getRepo().save(user);
     }
 
     @Override
-    public void changeStatusById(Integer idUser) {
-        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+    public void changeStatusById(Integer id) {
+        UserData user = getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         user.setEnabled(!user.getEnabled());
         getRepo().save(user);
     }

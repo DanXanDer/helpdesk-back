@@ -12,7 +12,7 @@ import portfolio.helpdesk.models.Worker;
 public interface WorkerMapper {
     WorkerMapper INSTANCE = Mappers.getMapper(WorkerMapper.class);
 
-    @Mapping(target = "userData.idUser", source = "idUser")
+    @Mapping(target = "userData.id", source = "id")
     Worker convertToEntity(WorkerCreationDTO workerCreationDTO);
 
     @Mapping(target = "user", source = "userData")
@@ -21,7 +21,7 @@ public interface WorkerMapper {
 
    /* default Worker convertToEntity(WorkerCreationDTO workerCreationDTO) {
         UserData user = new UserData();
-        user.setIdUser(workerCreationDTO.idUser());
+        user.setIdUser(workerCreationDTO.id());
         Worker worker = new Worker();
         worker.setUserData(user);
         return worker;

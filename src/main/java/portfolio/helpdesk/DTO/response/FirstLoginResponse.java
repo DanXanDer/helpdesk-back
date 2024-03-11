@@ -1,7 +1,7 @@
 package portfolio.helpdesk.DTO.response;
 
 public record FirstLoginResponse(
-        Integer idUser,
+        Integer id,
         Boolean firstLogin
 ) {
 }

@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record WorkerCreationDTO(
         @NotNull(message = "El id del usuario no puede ser nulo")
-        Integer idUser
+        Integer id
 ) {
 }

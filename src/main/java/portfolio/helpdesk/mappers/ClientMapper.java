@@ -14,7 +14,7 @@ public interface ClientMapper {
 
     default Client convertToEntity(ClientCreationDTO clientCreationDTO) {
         UserData user = new UserData();
-        user.setIdUser(clientCreationDTO.idUser());
+        user.setId(clientCreationDTO.id());
         Area area = new Area();
         area.setIdArea(clientCreationDTO.idArea());
         Client client = new Client();

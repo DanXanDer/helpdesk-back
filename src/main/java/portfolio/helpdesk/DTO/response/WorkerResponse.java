@@ -1,7 +1,7 @@
 package portfolio.helpdesk.DTO.response;
 
 public record WorkerResponse(
-        Integer idWorker,
+        Integer id,
         UserResponse user
 ) {
 

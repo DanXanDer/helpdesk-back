@@ -9,18 +9,20 @@ import portfolio.helpdesk.models.UserData;
 
 public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsService {
 
+    void findByUsernameOrEmail(String username, String email);
+
     void validatePasswords(String password, String rePassword);
 
     UserData save(UserCreationDTO userCreationDTO);
 
-    void completeRegistration(Integer idUser, UserUpdateDTO userUpdateDTO);
+    void completeRegistration(Integer id, UserUpdateDTO userUpdateDTO);
 
     UserData validateUserData(ValidateUserDataRequestDTO validateUserDataRequestDTO);
 
-    void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO);
+    void validateSecretAnswer(Integer id, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO);
 
-    void restorePassword(Integer idUser, UserUpdateDTO userUpdateDTO);
+    void restorePassword(Integer id, UserUpdateDTO userUpdateDTO);
 
-    void changeStatusById(Integer idUser);
+    void changeStatusById(Integer id);
 
 }

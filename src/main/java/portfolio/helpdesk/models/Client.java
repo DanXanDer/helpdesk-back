@@ -13,11 +13,11 @@ import lombok.Setter;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idClient;
+    private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "FK_CLIENT_USER"))
+    @MapsId
+    @JoinColumn(name = "id")
     private UserData userData;
 
     @ManyToOne

@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Data
 public class CustomUserDetails implements UserDetails {
-    private Integer idUser;
+    private Integer id;
     private String username;
     private String name;
     private String lastname;
