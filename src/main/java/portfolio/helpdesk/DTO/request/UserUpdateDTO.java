@@ -12,6 +12,7 @@ public record UserUpdateDTO(
         String rePassword,
         @Size(min = 1, max = 100, message = "La respuesta secreta debe tener entre 1 y 100 caracteres")
         String secretAnswer,
-        Boolean enabled
+        Boolean enabled,
+        Boolean firstLogin
 ) {
 }

@@ -35,9 +35,12 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     protected IUserRepo getRepo() {
         return userRepo;
     }
+
     @Override
     public void validatePasswords(String password, String rePassword) {
         if (!password.equals(rePassword)) {
+            System.out.println(rePassword);
+            System.out.println(password);
             throw new PasswordsDontMatchException();
         }
     }
@@ -58,6 +61,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
         userMapper.updateFromDTO(userUpdateDTO, user);
         user.setPassword(encoder.encode(userUpdateDTO.password()));
         user.setSecretAnswer(encoder.encode(userUpdateDTO.secretAnswer()));
+        System.out.println(user.getFirstLogin());
         getRepo().save(user);
     }
 
@@ -71,7 +75,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     public void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO) {
         UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
         if (!encoder.matches(validateUserSecretAnswerDTO.secretAnswer(), user.getSecretAnswer())) {
-            throw new ModelNotFoundException("Secret answer is incorrect");
+            throw new ModelNotFoundException("La respuesta secreta es incorrecta");
         }
     }
 
@@ -83,12 +87,18 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
+    public void changeStatusById(Integer idUser) {
+        UserData user = getRepo().findById(idUser).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
+        user.setEnabled(!user.getEnabled());
+        getRepo().save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) {
         UserData user = getRepo().findByUsernameOrEmail(username, username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario " + username + " no encontrado"));
         Set<PrivilegeResponse> authorities = user.getRole().getPrivileges().stream().map(
                 privilegeMapper::convertToDTO).collect(Collectors.toSet());
         return userMapper.convertToCustomUserDetails(user, authorities);
     }
-
 }

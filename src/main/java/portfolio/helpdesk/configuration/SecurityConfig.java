@@ -26,8 +26,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login", "/check-login").permitAll()
                         .anyRequest().permitAll()
+
                 ).csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
@@ -39,7 +40,7 @@ public class SecurityConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedMethods("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedOrigins("http://localhost:5173")
                         .allowedHeaders("*")
                         .allowCredentials(true)

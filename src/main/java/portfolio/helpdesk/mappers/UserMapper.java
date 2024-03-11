@@ -4,6 +4,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import portfolio.helpdesk.DTO.request.UserCreationDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
+import portfolio.helpdesk.DTO.response.FirstLoginResponse;
 import portfolio.helpdesk.DTO.response.PrivilegeResponse;
 import portfolio.helpdesk.DTO.response.UserResponse;
 import portfolio.helpdesk.DTO.response.ValidateUserDataResponse;
@@ -20,15 +21,20 @@ public interface UserMapper {
     @Mapping(target = "role.idRole", source = "idRole")
     UserData convertToEntity(UserCreationDTO userCreationDTO);
 
+    @Mapping(target = "role", source = "role.name")
     UserResponse convertToUserDTO(UserData userData);
 
-    //@Mapping(target = "authorities", source = "role.privileges")
+    @Mapping(target = "role", source = "userData.role.name")
     CustomUserDetails convertToCustomUserDetails(UserData userData, Set<PrivilegeResponse> authorities);
 
     @Mapping(target = "secretQuestion", source = "secretQuestion.name")
     ValidateUserDataResponse convertToValidateUserDataDTO(UserData userData);
 
+    FirstLoginResponse convertToFirstLoginDTO(UserData userData);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "secretQuestion.idSecretQuestion", source = "idSecretQuestion")
+    @Mapping(target = "firstLogin", source = "firstLogin")
+    @Mapping(target = "enabled", source = "enabled")
     void updateFromDTO(UserUpdateDTO userUpdateDTO, @MappingTarget UserData userData);
 }

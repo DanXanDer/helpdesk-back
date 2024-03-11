@@ -20,4 +20,7 @@ public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsServi
     void validateSecretAnswer(Integer idUser, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO);
 
     void restorePassword(Integer idUser, UserUpdateDTO userUpdateDTO);
+
+    void changeStatusById(Integer idUser);
+
 }

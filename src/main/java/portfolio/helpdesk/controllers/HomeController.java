@@ -3,7 +3,9 @@ package portfolio.helpdesk.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,17 +16,19 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.LoginRequestDTO;
 import portfolio.helpdesk.security.CustomUserDetails;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping
+@RequestMapping("/home")
 public class HomeController {
     private final AuthenticationManager authenticationManager;
 
-    public HomeController(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+   /* @GetMapping("/check-first-login")
+    public ResponseEntity<FirstLoginResponse> checkFirstLogin(LoginRequestDTO loginRequestDTO){
+        return ResponseEntity.ok(new FirstLoginResponse(false));
+    }*/
 
-    @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
+    @PostMapping
+    public ResponseEntity<CustomUserDetails> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(
                 loginRequestDTO.username(),
                 loginRequestDTO.password()
@@ -34,12 +38,24 @@ public class HomeController {
         context.setAuthentication(authenticationResponse);
         HttpSession session = request.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
-        return ResponseEntity.ok().build();
+        CustomUserDetails userDetails = this.activeUser();
+        return ResponseEntity.ok(userDetails);
     }
 
-    @GetMapping("login")
-    public ResponseEntity<Void> login() {
-        return ResponseEntity.ok().build();
+    @GetMapping("/check-login")
+    public ResponseEntity<Boolean> login() {
+        boolean isAuthenticated = true;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            if (userDetails.isFirstLogin()) {
+                isAuthenticated = false;
+                this.logout();
+            }
+        } else {
+            isAuthenticated = false;
+        }
+        return ResponseEntity.ok(isAuthenticated);
     }
 
     @GetMapping("/logout")
@@ -47,10 +63,10 @@ public class HomeController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/logged-user")
-    public ResponseEntity<CustomUserDetails> loggedUser() {
+
+    @GetMapping("/active-user")
+    public CustomUserDetails activeUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(userDetails);
+        return (CustomUserDetails) authentication.getPrincipal();
     }
 }

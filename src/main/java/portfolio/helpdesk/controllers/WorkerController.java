@@ -4,16 +4,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.WorkerCreationDTO;
+import portfolio.helpdesk.DTO.response.WorkerResponse;
 import portfolio.helpdesk.mappers.WorkerMapper;
 import portfolio.helpdesk.models.Worker;
 import portfolio.helpdesk.services.IWorkerService;
 
 import java.net.URI;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,4 +30,8 @@ public class WorkerController {
         return ResponseEntity.created(location).build();
     }
 
+    @GetMapping
+    public ResponseEntity<Set<WorkerResponse>> findAll() {
+        return ResponseEntity.ok(workerService.findAll().stream().map(workerMapper::convertToDTO).collect(Collectors.toSet()));
+    }
 }

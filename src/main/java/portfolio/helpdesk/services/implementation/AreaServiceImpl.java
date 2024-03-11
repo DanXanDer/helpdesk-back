@@ -9,6 +9,7 @@ import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.repositories.IAreaRepo;
 import portfolio.helpdesk.services.IAreaService;
+
 @RequiredArgsConstructor
 @Service
 public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaService {
@@ -24,8 +25,8 @@ public class AreaServiceImpl extends CrudImpl<Area, Integer> implements IAreaSer
     @Override
     public void updateStatusByIdArea(Integer idArea) {
         Area area = getRepo().findById(idArea).orElseThrow(() -> new ModelNotFoundException("No se encontró el área"));
-        boolean newStatus = !area.isEnabled();
-        getRepo().updateStatusByIdArea(idArea, newStatus);
+        area.setEnabled(!area.isEnabled());
+        getRepo().save(area);
     }
 
     @Override

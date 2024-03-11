@@ -18,9 +18,12 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @ManyToOne(optional = true)
+    @ManyToOne
     @JoinColumn(name = "id_secret_question", foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
     private SecretQuestion secretQuestion;
+
+    @Column
+    private Boolean firstLogin = true;
 
     @Column(nullable = false, length = 100)
     private String username;
@@ -43,8 +46,6 @@ public class UserData {
     @Column
     private Boolean enabled = true;
 
-    @Column
-    private Boolean firstLogin = true;
 
     @OneToOne(mappedBy = "userData")
     private Worker worker;

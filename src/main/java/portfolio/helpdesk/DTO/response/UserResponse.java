@@ -6,7 +6,7 @@ public record UserResponse(
         String name,
         String lastname,
         String email,
-        String type,
+        String role,
         Boolean enabled
 ) {
 }

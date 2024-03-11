@@ -13,11 +13,14 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String name;
     private String lastname;
+    private String role;
     @JsonIgnore
     private String password;
-    private Boolean enabled;
-
+    @JsonIgnore
+    private boolean enabled;
+    private boolean firstLogin;
     private Collection<? extends GrantedAuthority> authorities;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -26,21 +29,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.getEnabled();
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.getEnabled();
+        return enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.getEnabled();
+        return enabled;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.getEnabled();
+        return enabled;
     }
 }

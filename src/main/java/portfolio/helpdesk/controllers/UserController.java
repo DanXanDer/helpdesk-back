@@ -56,4 +56,11 @@ public class UserController {
         userService.restorePassword(idUser, userUpdateDTO);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/{idUser}/status")
+    public ResponseEntity<Void> changeStatus(@PathVariable("idUser") Integer idUser) {
+        userService.changeStatusById(idUser);
+        return ResponseEntity.ok().build();
+    }
+
 }
