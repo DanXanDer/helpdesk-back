@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +29,6 @@ public class Privilege {
     private String url;
 
     @ManyToMany(mappedBy = "privileges")
-    private Set<Role> roles;
+    private List<Role> roles;
 
 }

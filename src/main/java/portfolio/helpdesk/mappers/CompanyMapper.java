@@ -1,40 +1,35 @@
 package portfolio.helpdesk.mappers;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.CompanyCreationDTO;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
 import portfolio.helpdesk.DTO.request.CompanyUpdateDTO;
-import portfolio.helpdesk.DTO.response.CompanyResponse;
+import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.models.Company;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
-@Mapper
-public interface CompanyMapper {
-    CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
-    BranchMapper branchMapper = BranchMapper.INSTANCE;
+@Mapper(componentModel = "spring", uses = {BranchMapper.class})
+public abstract class CompanyMapper {
+    @Autowired
+    private BranchMapper branchMapper;
 
-    default Company convertToEntity(CompanyCreationDTO companyCreationDTO) {
+    public Company convertToEntity(CompanyRequestDTO companyRequestDTO) {
         Company company = new Company();
-        company.setName(companyCreationDTO.name());
-        Set<Branch> branches = companyCreationDTO.branches().stream().map(branchMapper::convertToEntity).collect(Collectors.toSet());
+        company.setName(companyRequestDTO.getName());
+        List<Branch> branches = branchMapper.convertToEntityList(companyRequestDTO.getBranches());
         branches.forEach(branch -> branch.setCompany(company));
         company.setBranches(branches);
         return company;
     }
 
-    default CompanyResponse convertToDTO(Company company) {
-        return new CompanyResponse(
-                company.getIdCompany(),
-                company.getName(),
-                company.isEnabled(),
-                company.getBranches().stream().map(branchMapper::convertToDTO).collect(Collectors.toSet())
-        );
-    }
+    public abstract CompanyResponseDTO convertToDTO(Company company);
 
-    void updateFromDTO(CompanyUpdateDTO companyUpdateDTO, @MappingTarget Company company);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void updateFromDTO(CompanyUpdateDTO companyUpdateDTO, @MappingTarget Company company);
 
 }

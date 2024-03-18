@@ -22,11 +22,6 @@ import portfolio.helpdesk.security.CustomUserDetails;
 public class HomeController {
     private final AuthenticationManager authenticationManager;
 
-   /* @GetMapping("/check-first-login")
-    public ResponseEntity<FirstLoginResponse> checkFirstLogin(LoginRequestDTO loginRequestDTO){
-        return ResponseEntity.ok(new FirstLoginResponse(false));
-    }*/
-
     @PostMapping
     public ResponseEntity<CustomUserDetails> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO, HttpServletRequest request) {
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(

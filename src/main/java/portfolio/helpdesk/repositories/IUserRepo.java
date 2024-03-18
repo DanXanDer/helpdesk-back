@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface IUserRepo extends IGenericRepo<UserData, Integer> {
     Optional<UserData> findByUsernameOrEmail(String username, String email);
 
-    @Query("SELECT u FROM UserData u WHERE u.username = ?1 AND u.name = ?2 AND u.lastname = ?3")
+    @Query("SELECT u FROM UserData u WHERE u.username = :username AND u.name = :name AND u.lastname = :lastname")
     Optional<UserData> findByValidationData(String username, String name, String lastname);
 
 

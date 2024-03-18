@@ -3,7 +3,7 @@ package portfolio.helpdesk.DTO.request;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record ClientCreationDTO(
+public record ClientRequestDTO(
         @NotNull
         Integer id,
         @NotNull

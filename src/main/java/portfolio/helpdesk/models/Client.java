@@ -22,7 +22,6 @@ public class Client {
 
     @ManyToOne
     @JoinColumn(
-            nullable = false,
             name = "id_area",
             foreignKey = @ForeignKey(name = "FK_CLIENT_AREA"))
     private Area area;

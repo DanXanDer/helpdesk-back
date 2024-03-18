@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,6 +19,4 @@ public class SecretQuestion {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "secretQuestion", cascade = {CascadeType.ALL})
-    private List<UserData> userData;
 }

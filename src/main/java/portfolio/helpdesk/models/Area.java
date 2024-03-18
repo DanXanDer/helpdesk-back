@@ -32,6 +32,6 @@ public class Area {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "area", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     Set<Client> clients;
 }

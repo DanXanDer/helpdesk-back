@@ -1,11 +1,13 @@
 package portfolio.helpdesk.services;
 
-import portfolio.helpdesk.DTO.request.AreaCreationDTO;
 import portfolio.helpdesk.models.Area;
 
+import java.util.List;
+
 public interface IAreaService extends ICRUD<Area, Integer> {
-    void updateStatusByIdArea(Integer idArea);
+    void findByNameAndBranch(String name, Integer idBranch);
 
-    Area save(AreaCreationDTO areaCreationDTO);
+    List<Area> findAllByBranch(Integer idBranch, Boolean enabled);
 
+    void updateStatusByBranch(Integer idBranch, boolean enabled);
 }

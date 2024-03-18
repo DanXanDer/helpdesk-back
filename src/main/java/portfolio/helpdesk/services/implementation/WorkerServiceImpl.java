@@ -6,6 +6,8 @@ import portfolio.helpdesk.models.Worker;
 import portfolio.helpdesk.repositories.IWorkerRepo;
 import portfolio.helpdesk.services.IWorkerService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class WorkerServiceImpl extends CrudImpl<Worker, Integer> implements IWorkerService {
@@ -14,5 +16,10 @@ public class WorkerServiceImpl extends CrudImpl<Worker, Integer> implements IWor
     @Override
     protected IWorkerRepo getRepo() {
         return workerRepo;
+    }
+
+    @Override
+    public List<Worker> findAll() {
+        return getRepo().findAll();
     }
 }

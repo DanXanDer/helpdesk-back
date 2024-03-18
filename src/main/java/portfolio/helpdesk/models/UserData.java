@@ -46,17 +46,10 @@ public class UserData {
     @Column
     private Boolean enabled = true;
 
-    @OneToOne(mappedBy = "userData")
-    private Worker worker;
-
-    @OneToOne(mappedBy = "userData")
-    private Client client;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             nullable = false,
             name = "id_role",
             foreignKey = @ForeignKey(name = "FK_USER_ROLE"))
     private Role role;
-
 }

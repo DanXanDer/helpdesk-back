@@ -1,6 +1,6 @@
 package portfolio.helpdesk.DTO.response;
 
-public record RoleResponse(
+public record RoleResponseDTO(
         Integer idRole,
         String authority,
         String description

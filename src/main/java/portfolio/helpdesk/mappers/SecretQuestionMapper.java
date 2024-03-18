@@ -1,15 +1,13 @@
 package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.SecretQuestionCreationDTO;
-import portfolio.helpdesk.DTO.response.SecretQuestionResponse;
+import portfolio.helpdesk.DTO.request.SecretQuestionRequestDTO;
+import portfolio.helpdesk.DTO.response.SecretQuestionResponseDTO;
 import portfolio.helpdesk.models.SecretQuestion;
 
-@Mapper
-public interface SecretQuestionMapper {
+@Mapper(componentModel = "spring")
+public abstract class SecretQuestionMapper {
+    public abstract SecretQuestion convertToEntity(SecretQuestionRequestDTO secretQuestionRequestDTO);
 
-    SecretQuestionMapper INSTANCE = Mappers.getMapper(SecretQuestionMapper.class);
-    SecretQuestion convertToEntity(SecretQuestionCreationDTO secretQuestionCreationDTO);
-    SecretQuestionResponse convertToDTO(SecretQuestion secretQuestion);
+    public abstract SecretQuestionResponseDTO convertToDTO(SecretQuestion secretQuestion);
 }

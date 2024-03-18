@@ -24,6 +24,6 @@ public class Company {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "company", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private Set<Branch> branches;
 }

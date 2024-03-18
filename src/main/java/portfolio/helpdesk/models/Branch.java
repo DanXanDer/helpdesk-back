@@ -31,6 +31,8 @@ public class Branch {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "branch", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "branch",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
     private Set<Area> areas;
 }

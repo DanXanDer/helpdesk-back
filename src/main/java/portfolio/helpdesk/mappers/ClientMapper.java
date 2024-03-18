@@ -1,25 +1,22 @@
 package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import portfolio.helpdesk.DTO.request.ClientCreationDTO;
+import portfolio.helpdesk.DTO.request.ClientRequestDTO;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.models.Client;
 import portfolio.helpdesk.models.UserData;
 
-@Mapper
-public interface ClientMapper {
-    UserMapper userMapper = UserMapper.INSTANCE;
-    ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
+@Mapper(componentModel = "spring", uses = {AreaMapper.class, UserMapper.class})
+public abstract class ClientMapper {
 
-    default Client convertToEntity(ClientCreationDTO clientCreationDTO) {
+    public Client convertToEntity(ClientRequestDTO clientRequestDTO) {
         UserData user = new UserData();
-        user.setId(clientCreationDTO.id());
+        user.setId(clientRequestDTO.id());
         Area area = new Area();
-        area.setIdArea(clientCreationDTO.idArea());
+        area.setIdArea(clientRequestDTO.idArea());
         Client client = new Client();
-        client.setAnydesk(clientCreationDTO.anydesk());
-        client.setTeamviewer(clientCreationDTO.teamviewer());
+        client.setAnydesk(clientRequestDTO.anydesk());
+        client.setTeamviewer(clientRequestDTO.teamviewer());
         client.setArea(area);
         client.setUserData(user);
         return client;
