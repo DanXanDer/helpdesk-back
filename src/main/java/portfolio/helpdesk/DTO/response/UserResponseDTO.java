@@ -1,12 +1,14 @@
 package portfolio.helpdesk.DTO.response;
 
-public record UserResponseDTO(
-        Integer id,
-        String username,
-        String name,
-        String lastname,
-        String email,
-        String role,
-        Boolean enabled
-) {
+import lombok.Data;
+
+@Data
+public class UserResponseDTO {
+    private Integer id;
+    private String username;
+    private String name;
+    private String lastname;
+    private String email;
+    private String role;
+    private Boolean enabled;
 }

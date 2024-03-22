@@ -1,8 +1,8 @@
-package portfolio.helpdesk.DTO.response;
+package portfolio.helpdesk.DTO;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public record PrivilegeResponseDTO(
+public record PrivilegeDTO(
         Integer idPrivilege,
         String icon,
         String authority,

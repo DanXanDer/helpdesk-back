@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import portfolio.helpdesk.DTO.request.SecretQuestionRequestDTO;
-import portfolio.helpdesk.DTO.response.SecretQuestionResponseDTO;
+import portfolio.helpdesk.DTO.SecretQuestionDTO;
 import portfolio.helpdesk.mappers.SecretQuestionMapper;
-import portfolio.helpdesk.models.SecretQuestion;
 import portfolio.helpdesk.services.ISecretQuestionService;
 
 import java.net.URI;
@@ -22,15 +20,15 @@ public class SecretQuestionController {
     private final SecretQuestionMapper sqMapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody SecretQuestionRequestDTO secretQuestionRequestDTO) {
-        SecretQuestion secretQuestion = secretQuestionService.save(sqMapper.convertToEntity(secretQuestionRequestDTO));
-        URI location = URI.create(String.format("/secret-questions/%d", secretQuestion.getIdSecretQuestion()));
+    public ResponseEntity<Void> save(@Valid @RequestBody SecretQuestionDTO secretQuestionDTO) {
+        Integer secretQuestionId = secretQuestionService.save(sqMapper.convertToEntity(secretQuestionDTO)).getIdSecretQuestion();
+        URI location = URI.create(String.format("/secret-questions/%d", secretQuestionId));
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping
-    public ResponseEntity<List<SecretQuestionResponseDTO>> findAll() {
-        List<SecretQuestionResponseDTO> secretQuestionsDTO = secretQuestionService.findAll().stream().map(sqMapper::convertToDTO).toList();
+    public ResponseEntity<List<SecretQuestionDTO>> findAll() {
+        List<SecretQuestionDTO> secretQuestionsDTO = secretQuestionService.findAll().stream().map(sqMapper::convertToDTO).toList();
         return ResponseEntity.ok(secretQuestionsDTO);
     }
 }

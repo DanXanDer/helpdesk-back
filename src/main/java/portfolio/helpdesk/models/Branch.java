@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,5 +34,5 @@ public class Branch {
     @OneToMany(mappedBy = "branch",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
-    private Set<Area> areas;
+    private List<Area> areas;
 }

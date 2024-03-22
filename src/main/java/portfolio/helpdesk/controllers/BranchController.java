@@ -10,6 +10,7 @@ import portfolio.helpdesk.DTO.request.BranchUpdateDTO;
 import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.mappers.BranchMapper;
+import portfolio.helpdesk.mappers.CycleAvoidingMappingContext;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.services.IAreaService;
 import portfolio.helpdesk.services.IBranchService;
@@ -28,8 +29,8 @@ public class BranchController {
 
     @PostMapping
     public ResponseEntity<Void> saveBranch(@Valid @RequestBody BranchRequestDTO branchRequestDTO) {
-        branchService.findByNameAndCompany(branchRequestDTO.getName(), branchRequestDTO.getIdCompany());
-        Integer idBranch = branchService.save(branchMapper.convertToEntity(branchRequestDTO)).getIdBranch();
+        branchService.findByNameAndCompany(branchRequestDTO.getName(), branchRequestDTO.getCompany().getIdCompany());
+        Integer idBranch = branchService.save(branchMapper.convertToEntity(branchRequestDTO, new CycleAvoidingMappingContext())).getIdBranch();
         URI location = URI.create(String.format("/branch/%d", idBranch));
         return ResponseEntity.created(location).build();
     }
@@ -41,12 +42,12 @@ public class BranchController {
             @Valid @RequestBody BranchUpdateDTO branchUpdateDTO
     ) {
         Branch branch = branchService.findById(idBranch);
-        if (branchUpdateDTO.name() != null) {
-            branchService.findByNameAndCompany(branchUpdateDTO.name(), branch.getCompany().getIdCompany());
+        if (branchUpdateDTO.getName() != null) {
+            branchService.findByNameAndCompany(branchUpdateDTO.getName(), branch.getCompany().getIdCompany());
         }
         branchMapper.updateFromDTO(branchUpdateDTO, branch);
-        if (branchUpdateDTO.enabled() != null) {
-            areaService.updateStatusByBranch(idBranch, branchUpdateDTO.enabled());
+        if (branchUpdateDTO.getEnabled() != null) {
+            areaService.updateStatusByBranch(idBranch, branchUpdateDTO.getEnabled());
         }
         branchService.save(branch);
         return ResponseEntity.ok().build();
@@ -57,6 +58,9 @@ public class BranchController {
             @PathVariable("idBranch") Integer idBranch,
             @RequestParam(value = "enabled", required = false) Boolean enabled) {
         branchService.getReferenceById(idBranch);
-        return ResponseEntity.ok(areaService.findAllByBranch(idBranch, enabled).stream().map(areaMapper::convertToDTO).toList());
+        return ResponseEntity.ok(areaService
+                .findAllByBranch(idBranch, enabled)
+                .stream()
+                .map(area -> areaMapper.convertToDTO(area, new CycleAvoidingMappingContext())).toList());
     }
 }

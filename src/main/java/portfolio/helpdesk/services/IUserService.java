@@ -1,8 +1,6 @@
 package portfolio.helpdesk.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
-import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
 import portfolio.helpdesk.models.UserData;
 
 public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsService {
@@ -11,8 +9,8 @@ public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsServi
 
     void validatePasswords(String password, String rePassword);
 
-    UserData validateUserData(ValidateUserDataRequestDTO validateUserDataRequestDTO);
+    UserData validateUserData(String username, String name, String lastname);
 
-    void validateSecretAnswer(Integer id, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO);
+    void validateSecretAnswer(Integer id, String secretAnswer);
 
 }

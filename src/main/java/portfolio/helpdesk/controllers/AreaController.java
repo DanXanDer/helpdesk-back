@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.AreaRequestDTO;
 import portfolio.helpdesk.DTO.request.AreaUpdateDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
+import portfolio.helpdesk.mappers.CycleAvoidingMappingContext;
 import portfolio.helpdesk.models.Area;
 import portfolio.helpdesk.services.IAreaService;
 
@@ -21,8 +22,8 @@ public class AreaController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
-        areaService.findByNameAndBranch(areaRequestDTO.getName(), areaRequestDTO.getIdBranch());
-        Integer idArea = areaService.save(areaMapper.convertToEntity(areaRequestDTO)).getIdArea();
+        areaService.findByNameAndBranch(areaRequestDTO.getName(), areaRequestDTO.getBranch().getIdBranch());
+        Integer idArea = areaService.save(areaMapper.convertToEntity(areaRequestDTO, new CycleAvoidingMappingContext())).getIdArea();
         URI location = URI.create(String.format("/area/%d", idArea));
         return ResponseEntity.created(location).build();
     }
@@ -33,8 +34,8 @@ public class AreaController {
             @Valid @RequestBody AreaUpdateDTO areaUpdateDTO
     ) {
         Area area = areaService.findById(idArea);
-        if (areaUpdateDTO.name() != null) {
-            areaService.findByNameAndBranch(areaUpdateDTO.name(), area.getBranch().getIdBranch());
+        if (areaUpdateDTO.getName() != null) {
+            areaService.findByNameAndBranch(areaUpdateDTO.getName(), area.getBranch().getIdBranch());
         }
         areaMapper.updateFromDTO(areaUpdateDTO, area);
         areaService.save(area);

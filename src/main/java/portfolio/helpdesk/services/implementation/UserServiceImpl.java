@@ -5,9 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import portfolio.helpdesk.DTO.request.ValidateUserDataRequestDTO;
-import portfolio.helpdesk.DTO.request.ValidateUserSecretAnswerDTO;
-import portfolio.helpdesk.DTO.response.PrivilegeResponseDTO;
+import portfolio.helpdesk.DTO.PrivilegeDTO;
 import portfolio.helpdesk.exceptions.ModelAlreadyExistsException;
 import portfolio.helpdesk.exceptions.ModelNotFoundException;
 import portfolio.helpdesk.exceptions.PasswordsDontMatchException;
@@ -48,15 +46,15 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
         }
     }
     @Override
-    public UserData validateUserData(ValidateUserDataRequestDTO validateUserDataRequestDTO) {
-        return getRepo().findByValidationData(validateUserDataRequestDTO.username(), validateUserDataRequestDTO.name(), validateUserDataRequestDTO.lastname())
+    public UserData validateUserData(String username, String name, String lastname) {
+        return getRepo().findByValidationData(username, name, lastname)
                 .orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
     }
 
     @Override
-    public void validateSecretAnswer(Integer id, ValidateUserSecretAnswerDTO validateUserSecretAnswerDTO) {
+    public void validateSecretAnswer(Integer id, String secretAnswer) {
         UserData user = getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("Usuario no encontrado"));
-        if (!encoder.matches(validateUserSecretAnswerDTO.secretAnswer(), user.getSecretAnswer())) {
+        if (!encoder.matches(secretAnswer, user.getSecretAnswer())) {
             throw new ModelNotFoundException("La respuesta secreta es incorrecta");
         }
     }
@@ -65,7 +63,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     public UserDetails loadUserByUsername(String username) {
         UserData user = getRepo().findByUsernameOrEmail(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario " + username + " no encontrado"));
-        Set<PrivilegeResponseDTO> authorities = user.getRole().getPrivileges().stream().map(
+        Set<PrivilegeDTO> authorities = user.getRole().getPrivileges().stream().map(
                 privilegeMapper::convertToDTO).collect(Collectors.toSet());
         return userMapper.convertToCustomUserDetails(user, authorities);
     }

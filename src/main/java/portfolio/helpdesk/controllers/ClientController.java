@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import portfolio.helpdesk.DTO.request.ClientRequestDTO;
 import portfolio.helpdesk.mappers.ClientMapper;
-import portfolio.helpdesk.models.Client;
 import portfolio.helpdesk.services.IClientService;
 
 import java.net.URI;
@@ -23,8 +22,8 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody ClientRequestDTO clientRequestDTO) {
-        Client client = clientService.save(clientMapper.convertToEntity(clientRequestDTO));
-        URI location = URI.create(String.format("/clients/%d", client.getId()));
+        Integer idClient = clientService.save(clientMapper.convertToEntity(clientRequestDTO)).getId();
+        URI location = URI.create(String.format("/clients/%d", idClient));
         return ResponseEntity.created(location).build();
     }
 }

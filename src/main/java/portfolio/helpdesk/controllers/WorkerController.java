@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/worker")
+@RequestMapping("/workers")
 public class WorkerController {
     private final IUserService userService;
     private final IWorkerService workerService;
@@ -25,8 +25,8 @@ public class WorkerController {
     @Transactional
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody WorkerRequestDTO workerRequestDTO) {
-        userService.findByUsernameOrEmail(workerRequestDTO.user().username(), workerRequestDTO.user().email());
-        userService.validatePasswords(workerRequestDTO.user().password(), workerRequestDTO.user().rePassword());
+        userService.findByUsernameOrEmail(workerRequestDTO.user().getUsername(), workerRequestDTO.user().getEmail());
+        userService.validatePasswords(workerRequestDTO.user().getPassword(), workerRequestDTO.user().getRePassword());
         Integer idWorker = workerService.save(workerMapper.convertToEntity(workerRequestDTO)).getUserData().getId();
         URI location = URI.create(String.format("/workers/%d", idWorker));
         return ResponseEntity.created(location).build();

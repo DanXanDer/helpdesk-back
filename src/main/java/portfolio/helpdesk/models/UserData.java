@@ -18,8 +18,10 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_secret_question", foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "id_secret_question",
+            foreignKey = @ForeignKey(name = "FK_USER_SECRET_QUESTION"))
     private SecretQuestion secretQuestion;
 
     @Column
