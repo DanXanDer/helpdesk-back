@@ -3,6 +3,7 @@ package portfolio.helpdesk.mappers;
 import org.mapstruct.*;
 import portfolio.helpdesk.DTO.request.BranchRequestDTO;
 import portfolio.helpdesk.DTO.request.BranchUpdateDTO;
+import portfolio.helpdesk.DTO.response.BranchInfoResponseDTO;
 import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.models.Branch;
 
@@ -12,6 +13,8 @@ public abstract class BranchMapper {
     public abstract Branch convertToEntity(BranchRequestDTO branchRequestDTO, @Context CycleAvoidingMappingContext context);
 
     public abstract BranchResponseDTO convertToDTO(Branch branch, @Context CycleAvoidingMappingContext context);
+
+    public abstract BranchInfoResponseDTO convertToDTO(Branch branch);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateFromDTO(BranchUpdateDTO branchUpdateDTO, @MappingTarget Branch branch);

@@ -3,15 +3,14 @@ package portfolio.helpdesk.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.ClientRequestDTO;
+import portfolio.helpdesk.DTO.response.ClientResponseDTO;
 import portfolio.helpdesk.mappers.ClientMapper;
 import portfolio.helpdesk.services.IClientService;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,4 +25,10 @@ public class ClientController {
         URI location = URI.create(String.format("/clients/%d", idClient));
         return ResponseEntity.created(location).build();
     }
+
+    @GetMapping
+    public ResponseEntity<List<ClientResponseDTO>> findAll() {
+        return ResponseEntity.ok(clientService.findAll().stream().map(clientMapper::convertToDTO).toList());
+    }
+
 }

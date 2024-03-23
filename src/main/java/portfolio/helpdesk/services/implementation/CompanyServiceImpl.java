@@ -33,9 +33,4 @@ public class CompanyServiceImpl extends CrudImpl<Company, Integer> implements IC
         return getRepo().findAll(enabled).orElseThrow(() -> new ModelNotFoundException("No se encontraron compañías"));
     }
 
-    @Override
-    public List<Company> findForNoAdmin() {
-        return getRepo().findForNoAdmin().orElseThrow(() -> new ModelNotFoundException("No se encontraron compañías"));
-    }
-
 }

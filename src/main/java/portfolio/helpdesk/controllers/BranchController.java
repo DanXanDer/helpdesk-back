@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.BranchRequestDTO;
 import portfolio.helpdesk.DTO.request.BranchUpdateDTO;
-import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.mappers.AreaMapper;
 import portfolio.helpdesk.mappers.BranchMapper;
 import portfolio.helpdesk.mappers.CycleAvoidingMappingContext;
@@ -54,13 +53,23 @@ public class BranchController {
     }
 
     @GetMapping("/{idBranch}/areas")
-    public ResponseEntity<List<AreaResponseDTO>> getAreasByBranch(
+    public ResponseEntity<?> getAreasByBranch(
             @PathVariable("idBranch") Integer idBranch,
             @RequestParam(value = "enabled", required = false) Boolean enabled) {
         branchService.getReferenceById(idBranch);
-        return ResponseEntity.ok(areaService
-                .findAllByBranch(idBranch, enabled)
-                .stream()
-                .map(area -> areaMapper.convertToDTO(area, new CycleAvoidingMappingContext())).toList());
+        List<?> areas;
+        if (enabled == null) {
+            areas = areaService
+                    .findAllByBranch(idBranch, null)
+                    .stream()
+                    .map(area -> areaMapper.convertToDTO(area, new CycleAvoidingMappingContext()))
+                    .toList();
+        } else {
+            areas = areaService
+                    .findAllByBranch(idBranch, enabled)
+                    .stream().map(areaMapper::convertToDTO)
+                    .toList();
+        }
+        return ResponseEntity.ok(areas);
     }
 }

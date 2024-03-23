@@ -15,8 +15,4 @@ public interface ICompanyRepo extends IGenericRepo<Company, Integer> {
 
     @Query("SELECT c FROM Company c WHERE (:enabled IS NULL or c.enabled = :enabled)")
     Optional<List<Company>> findAll(@Param("enabled") Boolean enabled);
-
-    @Query("SELECT c.idCompany, c.name FROM Company c WHERE c.enabled = true")
-    Optional<List<Company>> findForNoAdmin();
-
 }

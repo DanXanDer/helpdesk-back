@@ -1,6 +1,5 @@
 package portfolio.helpdesk.exceptions;
 
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,20 +9,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ResponseExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        Map<String, Object> errors = e.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .collect(Collectors.toMap(error -> ((FieldError) error).getField(), DefaultMessageSourceResolvable::getDefaultMessage));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        FieldError firstError = (FieldError) e.getBindingResult().getAllErrors().get(0);
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("field", firstError.getField());
+        errorResponse.put("message", firstError.getDefaultMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
 
     @ExceptionHandler(ModelNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleModelNotFoundException(ModelNotFoundException e) {

@@ -1,10 +1,9 @@
 package portfolio.helpdesk.DTO;
 
-import lombok.Data;
+public record RoleDTO(
+        Integer idRole,
+        String authority,
+        String description
+) {
 
-@Data
-public class RoleDTO {
-    Integer idRole;
-    String authority;
-    String description;
 }
