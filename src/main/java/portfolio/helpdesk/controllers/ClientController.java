@@ -8,6 +8,7 @@ import portfolio.helpdesk.DTO.request.ClientRequestDTO;
 import portfolio.helpdesk.DTO.response.ClientResponseDTO;
 import portfolio.helpdesk.mappers.ClientMapper;
 import portfolio.helpdesk.services.IClientService;
+import portfolio.helpdesk.services.IUserService;
 
 import java.net.URI;
 import java.util.List;
@@ -16,12 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/clients")
 public class ClientController {
+    private final IUserService userService;
     private final IClientService clientService;
     private final ClientMapper clientMapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody ClientRequestDTO clientRequestDTO) {
-        Integer idClient = clientService.save(clientMapper.convertToEntity(clientRequestDTO)).getId();
+    public ResponseEntity<Void> save(@Valid @RequestBody ClientRequestDTO client) {
+        userService.findByUsernameOrEmail(client.user().getUsername(), client.user().getEmail());
+        userService.validatePasswords(client.user().getPassword(), client.user().getRePassword());
+        Integer idClient = clientService.save(clientMapper.convertToEntity(client)).getId();
         URI location = URI.create(String.format("/clients/%d", idClient));
         return ResponseEntity.created(location).build();
     }
@@ -30,5 +34,4 @@ public class ClientController {
     public ResponseEntity<List<ClientResponseDTO>> findAll() {
         return ResponseEntity.ok(clientService.findAll().stream().map(clientMapper::convertToDTO).toList());
     }
-
 }

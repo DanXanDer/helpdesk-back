@@ -24,8 +24,8 @@ public class BranchServiceImpl extends CrudImpl<Branch, Integer> implements IBra
     }
 
     @Override
-    public void findByNameAndCompany(String name, Integer idCompany) {
-        getRepo().findByNameAndCompany(name, idCompany).ifPresent(branch -> {
+    public void findByNameAndCompany(String name, Integer idCompany, Integer idBranch) {
+        getRepo().findByNameAndCompany(name, idCompany, idBranch).ifPresent(branch -> {
             throw new ModelAlreadyExistsException("Sucursal con este nombre ya existe.");
         });
     }

@@ -15,7 +15,9 @@ import portfolio.helpdesk.services.IAreaService;
 import portfolio.helpdesk.services.IBranchService;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class BranchController {
 
     @PostMapping
     public ResponseEntity<Void> saveBranch(@Valid @RequestBody BranchRequestDTO branchRequestDTO) {
-        branchService.findByNameAndCompany(branchRequestDTO.getName(), branchRequestDTO.getCompany().getIdCompany());
+        branchService.findByNameAndCompany(branchRequestDTO.getName(), branchRequestDTO.getCompany().getIdCompany(), null);
         Integer idBranch = branchService.save(branchMapper.convertToEntity(branchRequestDTO, new CycleAvoidingMappingContext())).getIdBranch();
         URI location = URI.create(String.format("/branch/%d", idBranch));
         return ResponseEntity.created(location).build();
@@ -42,7 +44,7 @@ public class BranchController {
     ) {
         Branch branch = branchService.findById(idBranch);
         if (branchUpdateDTO.getName() != null) {
-            branchService.findByNameAndCompany(branchUpdateDTO.getName(), branch.getCompany().getIdCompany());
+            branchService.findByNameAndCompany(branchUpdateDTO.getName(), branch.getCompany().getIdCompany(), idBranch);
         }
         branchMapper.updateFromDTO(branchUpdateDTO, branch);
         if (branchUpdateDTO.getEnabled() != null) {
@@ -62,8 +64,15 @@ public class BranchController {
             areas = areaService
                     .findAllByBranch(idBranch, null)
                     .stream()
-                    .map(area -> areaMapper.convertToDTO(area, new CycleAvoidingMappingContext()))
+                    .map(area -> Map.of(
+                            "id", area.getIdArea(),
+                            "name", area.getName(),
+                            "enabled", area.isEnabled(),
+                            "clientsCount", area.getClients().size()
+                    ))
+                    .sorted(Comparator.comparing(company -> (String) company.get("name")))
                     .toList();
+
         } else {
             areas = areaService
                     .findAllByBranch(idBranch, enabled)

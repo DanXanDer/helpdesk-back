@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +33,5 @@ public class Area {
     private boolean enabled = true;
 
     @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    Set<Client> clients;
+    List<Client> clients;
 }

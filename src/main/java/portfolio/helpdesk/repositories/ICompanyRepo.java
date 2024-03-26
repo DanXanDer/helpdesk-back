@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ICompanyRepo extends IGenericRepo<Company, Integer> {
 
+    @Query("SELECT c FROM Company c WHERE LOWER(c.name) = LOWER(:name)")
     Optional<Company> findByName(String name);
 
     @Query("SELECT c FROM Company c WHERE (:enabled IS NULL or c.enabled = :enabled)")

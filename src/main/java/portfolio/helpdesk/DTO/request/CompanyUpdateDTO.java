@@ -1,15 +1,11 @@
 package portfolio.helpdesk.DTO.request;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-@Data
-public class CompanyUpdateDTO {
+public record CompanyUpdateDTO(
+        @Size(min = 1, max = 100)
+        String name,
+        Boolean enabled
+) {
 
-        @NotNull
-        @Size(min = 3, max = 100)
-        String name;
-
-    Boolean enabled;
 }

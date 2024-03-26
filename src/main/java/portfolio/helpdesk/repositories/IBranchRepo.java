@@ -8,8 +8,10 @@ import java.util.Optional;
 
 public interface IBranchRepo extends IGenericRepo<Branch, Integer> {
 
-    @Query("SELECT b FROM Branch b WHERE b.name = :name AND b.company.idCompany = :idCompany")
-    Optional<Branch> findByNameAndCompany(String name, Integer idCompany);
+    @Query("SELECT b FROM Branch b WHERE lower(b.name) = lower(:name) " +
+            "AND b.company.idCompany = :idCompany " +
+            "AND (:idBranch IS NULL OR b.idBranch != :idBranch)")
+    Optional<Branch> findByNameAndCompany(String name, Integer idCompany, Integer idBranch);
 
     @Query("SELECT b FROM Branch b WHERE b.company.idCompany = :idCompany AND (:enabled IS NULL or b.enabled = :enabled)")
     Optional<List<Branch>> findAllByCompany(Integer idCompany, Boolean enabled);

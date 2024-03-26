@@ -11,7 +11,6 @@ import lombok.Data;
 public class AreaRequestDTO {
 
     @JsonBackReference
-    @NotNull(message = "Sede no puede ser nula")
     BranchRequestDTO branch;
 
     Integer idArea;

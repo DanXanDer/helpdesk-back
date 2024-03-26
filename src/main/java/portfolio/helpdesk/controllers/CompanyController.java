@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.CompanyRequestDTO;
 import portfolio.helpdesk.DTO.request.CompanyUpdateDTO;
+import portfolio.helpdesk.DTO.response.BranchInfoResponseDTO;
 import portfolio.helpdesk.DTO.response.BranchResponseDTO;
 import portfolio.helpdesk.DTO.response.CompanyResponseDTO;
 import portfolio.helpdesk.mappers.BranchMapper;
@@ -16,6 +17,7 @@ import portfolio.helpdesk.services.IBranchService;
 import portfolio.helpdesk.services.ICompanyService;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,17 +47,25 @@ public class CompanyController {
                     .stream()
                     .map(company -> {
                         CompanyResponseDTO companyResponseDTO = companyMapper.convertToDTO(company, new CycleAvoidingMappingContext());
-                        Map<String, Object> companyInfo = new HashMap<>();
-                        companyInfo.put("idCompany", company.getIdCompany());
-                        companyInfo.put("name", companyResponseDTO.getName());
-                        companyInfo.put("enabled", companyResponseDTO.isEnabled());
-                        companyInfo.put("branchCount", companyResponseDTO.getBranches().size());
-                        companyInfo.put("areasCount", companyResponseDTO.getBranches()
-                                .stream()
-                                .mapToInt(branch -> branch.getAreas().size())
-                                .sum());
-                        return companyInfo;
+                        return Map.of(
+                                "id", company.getIdCompany(),
+                                "name", companyResponseDTO.getName(),
+                                "enabled", companyResponseDTO.isEnabled(),
+                                "branchCount", companyResponseDTO.getBranches().size(),
+                                "areasCount", companyResponseDTO.getBranches()
+                                        .stream()
+                                        .mapToInt(branch -> branch.getAreas().size())
+                                        .sum(),
+                                "clientsCount", companyResponseDTO.getBranches()
+                                        .stream()
+                                        .mapToInt(branch -> branch.getAreas()
+                                                .stream()
+                                                .mapToInt(area -> area.getClients() == null ? 0 : area.getClients().size())
+                                                .sum())
+                                        .sum()
+                        );
                     })
+                    .sorted(Comparator.comparing(company -> (String) company.get("name")))
                     .toList();
         } else {
             companies = companyService.findAll(enabled).stream().map(companyMapper::convertToDTO).toList();
@@ -67,45 +77,52 @@ public class CompanyController {
     @PatchMapping("/{idCompany}/update")
     public ResponseEntity<Void> update(@PathVariable("idCompany") Integer idCompany, @RequestBody @Valid CompanyUpdateDTO companyUpdateDTO) {
         Company company = companyService.findById(idCompany);
-        if (companyUpdateDTO.getName() != null) {
-            companyService.validateNameExistence(companyUpdateDTO.getName());
+        if (companyUpdateDTO.name() != null) {
+            companyService.validateNameExistence(companyUpdateDTO.name());
         }
         companyMapper.updateFromDTO(companyUpdateDTO, company);
-        if (companyUpdateDTO.getEnabled() != null) {
-            branchService.updateStatusByCompany(idCompany, companyUpdateDTO.getEnabled());
+        if (companyUpdateDTO.enabled() != null) {
+            branchService.updateStatusByCompany(idCompany, companyUpdateDTO.enabled());
         }
         companyService.save(company);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{idCompany}/branches")
+    @GetMapping("/{idCompany}")
     public ResponseEntity<?> getBranchesByCompany(
             @PathVariable("idCompany") Integer idCompany,
             @RequestParam(value = "enabled", required = false) Boolean enabled
     ) {
-        List<?> branches;
         if (enabled == null) {
-            branches = branchService
+            Map<String, Object> response = new HashMap<>();
+            response.put("company", companyService.findById(idCompany).getName());
+            List<?> branches = branchService
                     .findAllByCompany(idCompany, null)
                     .stream()
                     .map(branch -> {
                         BranchResponseDTO branchResponseDTO = branchMapper.convertToDTO(branch, new CycleAvoidingMappingContext());
-                        Map<String, Object> branchInfo = new HashMap<>();
-                        branchInfo.put("idBranch", branch.getIdBranch());
-                        branchInfo.put("name", branchResponseDTO.getName());
-                        branchInfo.put("enabled", branchResponseDTO.isEnabled());
-                        branchInfo.put("areaCount", branchResponseDTO.getAreas().size());
-                        return branchInfo;
+                        return Map.of(
+                                "id", branch.getIdBranch(),
+                                "name", branchResponseDTO.getName(),
+                                "enabled", branchResponseDTO.isEnabled(),
+                                "areaCount", branchResponseDTO.getAreas().size(),
+                                "clientsCount", branchResponseDTO.getAreas()
+                                        .stream()
+                                        .mapToInt(area -> area.getClients() == null ? 0 : area.getClients().size())
+                                        .sum()
+                        );
                     })
+                    .sorted(Comparator.comparing(company -> (String) company.get("name")))
                     .toList();
+            response.put("branches", branches);
+            return ResponseEntity.ok(response);
         } else {
-            branches = branchService
+            List<BranchInfoResponseDTO> response = branchService
                     .findAllByCompany(idCompany, enabled)
                     .stream()
                     .map(branchMapper::convertToDTO)
                     .toList();
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.ok(branches);
     }
-
 }
