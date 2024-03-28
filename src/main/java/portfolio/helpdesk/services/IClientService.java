@@ -7,4 +7,6 @@ import java.util.List;
 public interface IClientService extends ICRUD<Client, Integer> {
 
     List<Client> findAll();
+
+    void updateStatusByArea(Integer idArea, boolean status);
 }

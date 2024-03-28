@@ -8,6 +8,7 @@ import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.repositories.IBranchRepo;
 import portfolio.helpdesk.services.IAreaService;
 import portfolio.helpdesk.services.IBranchService;
+import portfolio.helpdesk.services.ICompanyService;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class BranchServiceImpl extends CrudImpl<Branch, Integer> implements IBranchService {
 
     private final IBranchRepo branchRepo;
+    private final ICompanyService companyService;
     private final IAreaService areaService;
 
     @Override
@@ -32,7 +34,7 @@ public class BranchServiceImpl extends CrudImpl<Branch, Integer> implements IBra
 
     @Override
     public void updateStatusByCompany(Integer idCompany, Boolean enabled) {
-        List<Branch> branches = getRepo().findAllByCompany(idCompany, !enabled).orElseThrow(() -> new ModelNotFoundException("No se encontraron sucursales"));
+        List<Branch> branches = getRepo().findAllByCompany(idCompany, null).orElseThrow(() -> new ModelNotFoundException("No se encontraron sucursales"));
         branches.forEach(branch -> {
             branch.setEnabled(enabled);
             areaService.updateStatusByBranch(branch.getIdBranch(), enabled);

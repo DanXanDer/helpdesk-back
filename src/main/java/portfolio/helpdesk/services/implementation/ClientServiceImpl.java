@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public class ClientServiceImpl extends CrudImpl<Client, Integer> implements IClientService {
     private final IClientRepo clientRepo;
+
     @Override
     protected IClientRepo getRepo() {
         return clientRepo;
@@ -20,5 +21,11 @@ public class ClientServiceImpl extends CrudImpl<Client, Integer> implements ICli
     @Override
     public List<Client> findAll() {
         return clientRepo.findAll();
+    }
+
+    @Override
+    public void updateStatusByArea(Integer idArea, boolean status) {
+        List<Client> clients = clientRepo.findAllByArea(idArea).stream().filter(client -> client.getUserData().getEnabled() != status).toList();
+        clients.forEach(client -> client.getUserData().setEnabled(status));
     }
 }

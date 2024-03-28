@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserValidationDTO {
+
     @Size(min = 3, max = 100, message = "El nombre de usuario debe tener entre 3 y 100 caracteres")
     String username;
 

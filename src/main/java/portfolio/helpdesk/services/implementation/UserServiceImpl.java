@@ -59,6 +59,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
         }
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserData user = getRepo().findByUsernameOrEmail(username, username)

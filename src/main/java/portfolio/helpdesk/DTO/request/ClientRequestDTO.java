@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record ClientRequestDTO(
+        Integer id,
         @NotNull(message = "El usuario no puede ser nulo")
         UserRequestDTO user,
         @NotNull(message = "El area no puede ser nulo")

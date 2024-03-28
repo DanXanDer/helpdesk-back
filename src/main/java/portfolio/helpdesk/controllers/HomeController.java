@@ -53,7 +53,7 @@ public class HomeController {
         return ResponseEntity.ok(isAuthenticated);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<Void> logout() {
         return ResponseEntity.ok().build();
     }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -31,4 +33,11 @@ public class Client {
 
     @Column(nullable = false, length = 9)
     private String teamviewer;
+
+    @OneToMany(
+            mappedBy = "client",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL}
+    )
+    private List<Report> report;
 }

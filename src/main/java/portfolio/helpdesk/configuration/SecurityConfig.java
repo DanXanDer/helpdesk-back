@@ -26,10 +26,15 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/check-login").permitAll()
+                        .requestMatchers("/home", "/home/check-login").permitAll()
                         .anyRequest().permitAll()
 
-                ).csrf(AbstractHttpConfigurer::disable);
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .logout(logout -> logout
+                        .logoutUrl("/home/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
 
         return http.build();
     }

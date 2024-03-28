@@ -3,7 +3,6 @@ package portfolio.helpdesk.DTO.request;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -14,7 +13,6 @@ import java.util.List;
 public class BranchRequestDTO {
 
     @JsonBackReference
-    @NotNull(message = "Empresa no puede ser nula")
     CompanyRequestDTO company;
 
     Integer idBranch;

@@ -10,7 +10,7 @@ import portfolio.helpdesk.models.Client;
 public abstract class ClientMapper {
 
     @Mapping(target = "userData", source = "user")
-    public abstract Client convertToEntity(ClientRequestDTO clientRequestDTO);
+    public abstract Client convertToEntity(ClientRequestDTO client);
 
     @Mapping(target = "user", source = "userData")
     @Mapping(target = "user.role", source = "userData.role.name")

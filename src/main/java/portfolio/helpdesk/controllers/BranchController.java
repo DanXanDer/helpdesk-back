@@ -13,6 +13,7 @@ import portfolio.helpdesk.mappers.CycleAvoidingMappingContext;
 import portfolio.helpdesk.models.Branch;
 import portfolio.helpdesk.services.IAreaService;
 import portfolio.helpdesk.services.IBranchService;
+import portfolio.helpdesk.services.ICompanyService;
 
 import java.net.URI;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/branch")
 public class BranchController {
+    private final ICompanyService companyService;
     private final IBranchService branchService;
     private final IAreaService areaService;
     private final BranchMapper branchMapper;
@@ -38,7 +40,7 @@ public class BranchController {
 
     @PatchMapping("/{idBranch}/update")
     @Transactional
-    public ResponseEntity<Void> updateBranchStatus(
+    public ResponseEntity<Void> updateBranch(
             @PathVariable("idBranch") Integer idBranch,
             @Valid @RequestBody BranchUpdateDTO branchUpdateDTO
     ) {

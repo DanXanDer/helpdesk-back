@@ -13,5 +13,4 @@ public interface IUserRepo extends IGenericRepo<UserData, Integer> {
     @Query("SELECT u FROM UserData u WHERE u.username = :username AND u.name = :name AND u.lastname = :lastname")
     Optional<UserData> findByValidationData(String username, String name, String lastname);
 
-
 }

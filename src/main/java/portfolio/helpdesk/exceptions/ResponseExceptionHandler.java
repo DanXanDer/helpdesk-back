@@ -55,4 +55,9 @@ public class ResponseExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
+    @ExceptionHandler(ParentEntityDisabledException.class)
+    public ResponseEntity<ErrorResponse> handleParentEntityDisabledException(ParentEntityDisabledException e) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }
