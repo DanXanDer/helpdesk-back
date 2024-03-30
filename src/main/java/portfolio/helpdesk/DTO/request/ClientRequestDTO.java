@@ -16,4 +16,5 @@ public record ClientRequestDTO(
         @Size(min = 9, max = 9, message = "El ID de TeamViewer debe tener 9 caracteres")
         String teamviewer
 ) {
+
 }

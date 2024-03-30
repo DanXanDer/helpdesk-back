@@ -7,9 +7,8 @@ import portfolio.helpdesk.DTO.response.AreaInfoResponseDTO;
 import portfolio.helpdesk.DTO.response.AreaResponseDTO;
 import portfolio.helpdesk.models.Area;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ClientMapper.class})
 public abstract class AreaMapper {
-
 
     public abstract Area convertToEntity(AreaRequestDTO areaRequestDTO, @Context CycleAvoidingMappingContext context);
 

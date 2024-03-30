@@ -2,6 +2,7 @@ package portfolio.helpdesk.services.implementation;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import portfolio.helpdesk.services.IFileStorageService;
 
@@ -11,9 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Service
 public class FileStorageServiceImpl implements IFileStorageService {
 
-    private final Path root = Paths.get("src/main/resources/static/reports");
+    private final Path root = Paths.get("src/main/resources/static/tickets");
 
     @Override
     public Path createDirectory(int id, String prefix, Path rootPath) throws IOException {

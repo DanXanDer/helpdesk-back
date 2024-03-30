@@ -34,10 +34,6 @@ public class Client {
     @Column(nullable = false, length = 9)
     private String teamviewer;
 
-    @OneToMany(
-            mappedBy = "client",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.ALL}
-    )
-    private List<Report> report;
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 }

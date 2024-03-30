@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,4 +22,7 @@ public class Worker {
     @MapsId
     @JoinColumn(name = "id")
     private UserData userData;
+
+    @OneToMany(mappedBy = "worker", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 }

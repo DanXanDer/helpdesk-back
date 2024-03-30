@@ -1,4 +1,4 @@
--- Privilegios de administrador
+/*-- Privilegios de administrador
 INSERT INTO privilege(icon, authority, url)
 VALUES ('corporate_fare', 'Gestionar empresas', 'gestionar-empresas');
 INSERT INTO privilege(icon, authority, url)
@@ -76,17 +76,19 @@ VALUES (10, 2);
 
 -- Insertar privilegios por rol cliente
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (1, 3);
+VALUES (6, 3);
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (3, 3);
+VALUES (7, 3);
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (4, 3);
+VALUES (10, 3);
 
 -- Insertar privilegios por rol trabajador
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (5, 4);
+VALUES (8, 4);
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (6, 4);
+VALUES (9, 4);
+INSERT INTO role_privilege(id_privilege, id_role)
+VALUES (10, 4);
 
 -- Insertar preguntas secretas
 INSERT INTO secret_question(name)
@@ -101,11 +103,5 @@ INSERT INTO secret_question(name)
 VALUES ('¿Cuál es tu libro favorito?');
 
 
-INSERT INTO ticket_status(name, color)
-VALUES ('En progreso', 'yellow');
-INSERT INTO ticket_status(name, color)
-VALUES ('Resuelto', 'green');
-INSERT INTO ticket_status(name, color)
-VALUES ('Cerrado', 'blue');
 
-
+*/
