@@ -1,16 +1,15 @@
 package portfolio.helpdesk.DTO.response;
 
-import portfolio.helpdesk.models.TicketStatus;
-
 import java.time.LocalDateTime;
 
 public record TicketResponseDTO(
-        Integer idTicket,
-        ClientResponseDTO client,
-        WorkerResponseDTO worker,
+        Integer id,
+        String client,
+        String worker,
         String summary,
         String description,
-        TicketStatus ticketStatus,
+        String status,
+        String color,
         LocalDateTime creationDate,
         LocalDateTime lastUpdate
 ) {

@@ -19,4 +19,7 @@ public abstract class ClientMapper {
     @Mapping(target = "area", source = "area.name")
     public abstract ClientResponseDTO convertToDTO(Client client);
 
+    public String convertToClientFullName(Client client) {
+        return client.getUserData().getName() + " " + client.getUserData().getLastname();
+    }
 }

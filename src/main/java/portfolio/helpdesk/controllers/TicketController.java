@@ -4,15 +4,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import portfolio.helpdesk.DTO.TicketImageDTO;
 import portfolio.helpdesk.DTO.request.TicketRequestDTO;
+import portfolio.helpdesk.DTO.response.TicketResponseDTO;
 import portfolio.helpdesk.mappers.TicketImageMapper;
 import portfolio.helpdesk.mappers.TicketMapper;
+import portfolio.helpdesk.models.TicketStatus;
 import portfolio.helpdesk.services.IFileStorageService;
 import portfolio.helpdesk.services.ITicketImageService;
 import portfolio.helpdesk.services.ITicketService;
@@ -20,6 +19,9 @@ import portfolio.helpdesk.services.ITicketService;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -43,5 +45,28 @@ public class TicketController {
         }
         URI location = URI.create("/tickets/" + idTicket);
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TicketResponseDTO>> findAll(
+            @RequestParam(value = "status", required = false) TicketStatus status) {
+        return ResponseEntity.ok(ticketService.findAll(status).stream().map(ticketMapper::convertToDTO).toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TicketResponseDTO> findTicket(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(ticketMapper.convertToDTO(ticketService.findById(id)));
+    }
+
+    @GetMapping("/statuses")
+    public ResponseEntity<?> findAllTicketStatus() {
+        List<Map<String, String>> result;
+        List<TicketStatus> ticketStatuses = Arrays.asList(TicketStatus.values());
+        result = ticketStatuses.stream().map(ticketStatus -> Map.of(
+                "name", ticketStatus.name(),
+                "status", ticketStatus.getStatus(),
+                "color", ticketStatus.getColor()
+        )).toList();
+        return ResponseEntity.ok(result);
     }
 }

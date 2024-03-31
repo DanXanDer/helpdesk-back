@@ -17,4 +17,8 @@ public abstract class WorkerMapper {
     @Mapping(target = "user", source = "userData")
     @Mapping(target = "user.role", source = "userData.role.name")
     public abstract WorkerResponseDTO convertToDTO(Worker worker);
+
+    public String convertToWorkerFullName(Worker worker) {
+        return (worker != null) ? worker.getUserData().getName() + " " + worker.getUserData().getLastname() : "Sin asignar";
+    }
 }

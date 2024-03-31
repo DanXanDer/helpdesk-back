@@ -1,6 +1,7 @@
 package portfolio.helpdesk.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import portfolio.helpdesk.DTO.request.TicketRequestDTO;
 import portfolio.helpdesk.DTO.response.TicketResponseDTO;
@@ -25,5 +26,9 @@ public abstract class TicketMapper {
         return ticket;
     }
 
+    @Mapping(target = "id", source = "idTicket")
+    @Mapping(target = "status", source = "ticketStatus.status")
+    @Mapping(target = "color", source = "ticketStatus.color")
     public abstract TicketResponseDTO convertToDTO(Ticket ticket);
+
 }
