@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -23,6 +25,9 @@ public class TicketMessage {
     private String sender;
     @Column(nullable = false, length = 100)
     private String receiver;
+    @Column(nullable = false)
+    @CreationTimestamp
+    private LocalDateTime sentDate;
     @ManyToOne
     @JoinColumn(
             nullable = false,
