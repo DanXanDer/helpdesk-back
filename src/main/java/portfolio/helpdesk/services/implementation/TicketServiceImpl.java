@@ -21,7 +21,7 @@ public class TicketServiceImpl extends CrudImpl<Ticket, Integer> implements ITic
     }
 
     @Override
-    public List<Ticket> findAll(TicketStatus ticketStatus) {
-        return repo.findAll(ticketStatus);
+    public List<Ticket> findAll(TicketStatus ticketStatus, Integer idClient, Integer idWorker) {
+        return repo.findAll(ticketStatus, idClient, idWorker);
     }
 }

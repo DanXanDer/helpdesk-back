@@ -7,7 +7,9 @@ import java.util.List;
 
 public record TicketResponseDTO(
         Integer id,
+        Integer idClient,
         String client,
+        Integer idWorker,
         String worker,
         String summary,
         String description,

@@ -1,14 +1,10 @@
 /*-- Privilegios de administrador
 INSERT INTO privilege(icon, authority, url)
-VALUES ('corporate_fare', 'Gestionar empresas', 'gestionar-empresas');
+VALUES ('corporate_fare', 'Empresas', 'empresas');
 INSERT INTO privilege(icon, authority, url)
-VALUES ('add_business', 'Agregar empresa', 'agregar-empresa');
+VALUES ('manage_accounts', 'Usuarios', 'gestionar-usuarios');
 INSERT INTO privilege(icon, authority, url)
-VALUES ('manage_accounts', 'Gestionar usuarios', 'gestionar-usuarios');
-INSERT INTO privilege(icon, authority, url)
-VALUES ('person_add', 'Agregar usuario', 'crear-usuario');
-INSERT INTO privilege(icon, authority, url)
-VALUES ('confirmation_number', 'Ver tickets', 'ver-tickets');
+VALUES ('confirmation_number', 'Historial de tickets', 'historial-tickets');
 
 --Privilegios de cliente
 INSERT INTO privilege(icon, authority, url)
@@ -16,11 +12,8 @@ VALUES ('report', 'Reportar incidente', 'reportar-incidente');
 INSERT INTO privilege(icon, authority, url)
 VALUES ('flag_circle', 'Mis reportes', 'mis-reportes');
 
---Privilegios de trabajador
 INSERT INTO privilege(icon, authority, url)
-VALUES ('summarize', 'Incidentes reportados', 'incidentes-reportados');
-INSERT INTO privilege(icon, authority, url)
-VALUES ('confirmation_number', 'Mis tickets', 'mis-tickets');
+VALUES ('confirmation_number', 'Tickets', 'tickets');
 
 --Privilegios en común
 INSERT INTO privilege(icon, authority, url)
@@ -52,13 +45,6 @@ INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (6, 1);
 INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (7, 1);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (8, 1);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (9, 1);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (10, 1);
-
 
 -- Insertar privilegios por rol administrador
 INSERT INTO role_privilege(id_privilege, id_role)
@@ -68,27 +54,21 @@ VALUES (2, 2);
 INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (3, 2);
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (4, 2);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (5, 2);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (10, 2);
+VALUES (7, 2);
 
 -- Insertar privilegios por rol cliente
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (6, 3);
+VALUES (4, 3);
+INSERT INTO role_privilege(id_privilege, id_role)
+VALUES (5, 3);
 INSERT INTO role_privilege(id_privilege, id_role)
 VALUES (7, 3);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (10, 3);
 
 -- Insertar privilegios por rol trabajador
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (8, 4);
+VALUES (6, 4);
 INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (9, 4);
-INSERT INTO role_privilege(id_privilege, id_role)
-VALUES (10, 4);
+VALUES (7, 4);
 
 -- Insertar preguntas secretas
 INSERT INTO secret_question(name)

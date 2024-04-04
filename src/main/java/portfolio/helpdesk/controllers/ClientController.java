@@ -23,7 +23,7 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody ClientRequestDTO client) {
-        userService.findByUsernameOrEmail(client.user().getUsername(), client.user().getEmail());
+        userService.findByUsernameOrEmail(client.user().getUsername(), client.user().getEmail(), null);
         userService.validatePasswords(client.user().getPassword(), client.user().getRePassword());
         Integer idClient = clientService.save(clientMapper.convertToEntity(client)).getId();
         URI location = URI.create(String.format("/clients/%d", idClient));
@@ -34,4 +34,10 @@ public class ClientController {
     public ResponseEntity<List<ClientResponseDTO>> findAll() {
         return ResponseEntity.ok(clientService.findAll().stream().map(clientMapper::convertToDTO).toList());
     }
+
+    @GetMapping("/{idClient}")
+    public ResponseEntity<ClientResponseDTO> findById(@PathVariable Integer idClient) {
+        return ResponseEntity.ok(clientMapper.convertToDTO(clientService.findById(idClient)));
+    }
+
 }

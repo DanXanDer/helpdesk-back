@@ -6,5 +6,5 @@ import portfolio.helpdesk.models.TicketStatus;
 import java.util.List;
 
 public interface ITicketService extends ICRUD<Ticket, Integer> {
-    List<Ticket> findAll(TicketStatus ticketStatus);
+    List<Ticket> findAll(TicketStatus ticketStatus, Integer idClient, Integer idWorker);
 }

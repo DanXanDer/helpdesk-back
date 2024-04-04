@@ -5,7 +5,7 @@ import portfolio.helpdesk.models.UserData;
 
 public interface IUserService extends ICRUD<UserData, Integer>, UserDetailsService {
 
-    void findByUsernameOrEmail(String username, String email);
+    void findByUsernameOrEmail(String username, String email, Integer id);
 
     void validatePasswords(String password, String rePassword);
 

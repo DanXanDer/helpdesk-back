@@ -52,8 +52,10 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity<List<TicketResponseDTO>> findAll(
-            @RequestParam(value = "status", required = false) TicketStatus status) {
-        return ResponseEntity.ok(ticketService.findAll(status).stream().map(ticketMapper::convertToDTO).toList());
+            @RequestParam(value = "status", required = false) TicketStatus status,
+            @RequestParam(value = "idClient", required = false) Integer idClient,
+            @RequestParam(value = "idWorker", required = false) Integer idWorker) {
+        return ResponseEntity.ok(ticketService.findAll(status, idClient, idWorker).stream().map(ticketMapper::convertToDTO).toList());
     }
 
     @GetMapping(value = "/{id}")

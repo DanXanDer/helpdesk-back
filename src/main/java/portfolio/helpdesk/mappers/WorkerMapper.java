@@ -15,7 +15,6 @@ public abstract class WorkerMapper {
     public abstract Worker convertToEntity(WorkerRequestDTO workerRequestDTO);
 
     @Mapping(target = "user", source = "userData")
-    @Mapping(target = "user.role", source = "userData.role.name")
     public abstract WorkerResponseDTO convertToDTO(Worker worker);
 
     public String convertToWorkerFullName(Worker worker) {

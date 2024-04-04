@@ -33,8 +33,8 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
     }
 
     @Override
-    public void findByUsernameOrEmail(String username, String email) {
-        getRepo().findByUsernameOrEmail(username, email).ifPresent(user -> {
+    public void findByUsernameOrEmail(String username, String email, Integer id) {
+        getRepo().findByUsernameOrEmail(username, email, id).ifPresent(user -> {
             throw new ModelAlreadyExistsException("Usuario o correo electrónico ya existe");
         });
     }
@@ -62,7 +62,7 @@ public class UserServiceImpl extends CrudImpl<UserData, Integer> implements IUse
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserData user = getRepo().findByUsernameOrEmail(username, username)
+        UserData user = getRepo().findByUsernameOrEmail(username, username, null)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario " + username + " no encontrado"));
         Set<PrivilegeDTO> authorities = user.getRole().getPrivileges().stream().map(
                 privilegeMapper::convertToDTO).collect(Collectors.toSet());

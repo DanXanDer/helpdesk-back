@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface ITicketRepo extends IGenericRepo<Ticket, Integer> {
 
-    @Query("SELECT t from Ticket t WHERE (:ticketStatus IS NULL OR t.ticketStatus = :ticketStatus)")
-    List<Ticket> findAll(TicketStatus ticketStatus);
+    @Query("SELECT t from Ticket t " +
+            "WHERE (:ticketStatus IS NULL OR t.ticketStatus = :ticketStatus) " +
+            "AND (:idClient IS NULL OR t.client.id = :idClient)" +
+            "AND (:idWorker IS NULL OR t.worker.id = :idWorker)")
+    List<Ticket> findAll(TicketStatus ticketStatus, Integer idClient, Integer idWorker);
 }

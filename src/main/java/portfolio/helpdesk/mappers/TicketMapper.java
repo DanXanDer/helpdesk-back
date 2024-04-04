@@ -37,6 +37,8 @@ public abstract class TicketMapper {
     @Mapping(target = "id", source = "idTicket")
     @Mapping(target = "status", source = "ticketStatus.status")
     @Mapping(target = "color", source = "ticketStatus.color")
+    @Mapping(target = "idClient", source = "client.id")
+    @Mapping(target = "idWorker", source = "worker.id")
     public abstract TicketResponseDTO convertToDTO(Ticket ticket);
 
     public TicketImage convertToEntity(TicketImageDTO dto) {

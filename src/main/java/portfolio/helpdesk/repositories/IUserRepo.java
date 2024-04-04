@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface IUserRepo extends IGenericRepo<UserData, Integer> {
-    Optional<UserData> findByUsernameOrEmail(String username, String email);
+    @Query("SELECT u FROM UserData u WHERE (u.username = :username OR u.email = :email) AND (:id IS NULL OR u.id != :id)")
+    Optional<UserData> findByUsernameOrEmail(String username, String email, Integer id);
 
     @Query("SELECT u FROM UserData u WHERE u.username = :username AND u.name = :name AND u.lastname = :lastname")
     Optional<UserData> findByValidationData(String username, String name, String lastname);

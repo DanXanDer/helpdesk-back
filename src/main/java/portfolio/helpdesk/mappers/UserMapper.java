@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import portfolio.helpdesk.DTO.PrivilegeDTO;
 import portfolio.helpdesk.DTO.request.UserRequestDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
+import portfolio.helpdesk.DTO.response.UserResponseDTO;
 import portfolio.helpdesk.DTO.response.UserSecretQuestionResponseDTO;
 import portfolio.helpdesk.configuration.IgnoreUnmappedMapperConfig;
 import portfolio.helpdesk.models.UserData;
@@ -24,6 +25,9 @@ public abstract class UserMapper {
 
     @Mapping(target = "password", expression = "java(encoder.encode(userRequestDTO.getPassword()))")
     public abstract UserData convertToEntity(UserRequestDTO userRequestDTO);
+
+    @Mapping(target = "role", source = "role.name")
+    public abstract UserResponseDTO convertToDTO(UserData user);
 
     @Mapping(target = "role", source = "userData.role.name")
     public abstract CustomUserDetails convertToCustomUserDetails(UserData userData, Set<PrivilegeDTO> authorities);

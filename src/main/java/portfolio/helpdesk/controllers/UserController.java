@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.helpdesk.DTO.request.UserRequestDTO;
 import portfolio.helpdesk.DTO.request.UserUpdateDTO;
 import portfolio.helpdesk.DTO.request.UserValidationDTO;
+import portfolio.helpdesk.DTO.response.UserResponseDTO;
 import portfolio.helpdesk.DTO.response.UserSecretQuestionResponseDTO;
 import portfolio.helpdesk.mappers.UserMapper;
 import portfolio.helpdesk.models.UserData;
@@ -20,6 +21,7 @@ import java.net.URI;
 public class UserController {
     private final IUserService userService;
     private final UserMapper userMapper;
+
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         UserData user = userMapper.convertToEntity(userRequestDTO);
@@ -29,6 +31,9 @@ public class UserController {
 
     @PatchMapping("/{id}/update")
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+        if (userUpdateDTO.getName() != null || userUpdateDTO.getEmail() != null) {
+            userService.findByUsernameOrEmail(userUpdateDTO.getUsername(), userUpdateDTO.getEmail(), id);
+        }
         UserData user = userService.findById(id);
         if (userUpdateDTO.getPassword() != null && userUpdateDTO.getRePassword() != null) {
             userService.validatePasswords(userUpdateDTO.getPassword(), userUpdateDTO.getRePassword());
@@ -48,5 +53,11 @@ public class UserController {
     public ResponseEntity<Void> validateSecretAnswer(@PathVariable("id") Integer id, @RequestBody UserValidationDTO userValidationDTO) {
         userService.validateSecretAnswer(id, userValidationDTO.getSecretAnswer());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable Integer id) {
+        UserData user = userService.findById(id);
+        return ResponseEntity.ok(userMapper.convertToDTO(user));
     }
 }
